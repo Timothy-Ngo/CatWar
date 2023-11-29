@@ -11,8 +11,9 @@ public class UI : MonoBehaviour
         inst = this;
     }
 
-    [SerializeField] TextMeshProUGUI currencyText;
-    [SerializeField] int currency = 300;
+    public TextMeshProUGUI currencyText;
+    public int currency = 300;
+    bool screenToggled = false;
 
     private void Start()
     {
@@ -26,10 +27,19 @@ public class UI : MonoBehaviour
         currencyText.text = "Cash: " + currency.ToString();
     }
 
-    bool screenToggled = false;
     public void ToggleBuyScreen(GameObject buyScreen)
     {
         buyScreen.SetActive(!screenToggled);
         screenToggled = !screenToggled;
+    }
+
+    public void FadeTextOut(TextMeshProUGUI fadingText)
+    {
+        fadingText.CrossFadeAlpha(0f, 1f, false);
+    }
+
+    public void ResetTextAlpha(TextMeshProUGUI fadedText)
+    {
+        fadedText.CrossFadeAlpha(1f, 0f, false);
     }
 }
