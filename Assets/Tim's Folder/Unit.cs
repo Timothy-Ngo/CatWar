@@ -23,9 +23,7 @@ public class Unit : MonoBehaviour
     
     public float speed; 
     public float desiredSpeed;
-
-
-    public float mass;
+    
 
     public void Start()
     {

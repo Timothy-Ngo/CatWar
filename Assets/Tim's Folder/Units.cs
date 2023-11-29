@@ -23,4 +23,11 @@ public class Units : MonoBehaviour
     {
         
     }
+
+    public void Add(Unit unit)
+    {
+        playerUnits.units.Add(unit);
+        unit.gameObject.transform.parent = transform;
+        unit.gameObject.name += " " + playerUnits.units.Count;
+    }
 }

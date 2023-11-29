@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 5171178535486875221}
   - component: {fileID: 5171178535486875242}
   - component: {fileID: 5171178535486875223}
-  m_Layer: 0
+  - component: {fileID: 6903022128570048298}
+  - component: {fileID: 8058629735673193895}
+  m_Layer: 6
   m_Name: Iron Cat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -427722123
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1687ad8c292a85e4b8d20df6310bcb46, type: 3}
   m_Color: {r: 0.9622642, g: 0.44028127, b: 0.44028127, a: 1}
   m_FlipX: 0
@@ -102,7 +104,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.13, y: 7.2}
+    oldSize: {x: 1.01625, y: 0.9}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -124,7 +126,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitType: {fileID: 11400000, guid: 4e0b7932e434fae4784c179e5c53ace8, type: 2}
-  selectionCircle: {fileID: 5171178535946053997}
+  position: {x: 0, y: 0}
+  velocity: {x: 0, y: 0}
+  heading: 0
+  desiredHeading: 0
+  speed: 0
+  desiredSpeed: 0
+  mass: 0
+--- !u!114 &6903022128570048298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171178535486875243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09cf7e8b289c1fe4992bda99aecebf4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 5171178535486875223}
+  eulerRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &8058629735673193895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171178535486875243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eba386e5cbbcf94f872b3c1b3617aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commands: []
 --- !u!1 &5171178535946053997
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +210,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6677f5b2febb34146a3213cfe4cc51b0, type: 2}
+  - {fileID: 2100000, guid: fd4b7c77e3b22cb4abb0585f6acf118b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -193,11 +228,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -427722123
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ea07ee084a703f848b51fdc798b9ad22, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.030385952, g: 0.9716981, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

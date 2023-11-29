@@ -14,7 +14,7 @@ public class UnitType : ScriptableObject
     public float minSpeed;
     public float acceleration;
     public float turnRate;
-
+    
     [Header("-----ATTACK-----")] 
     public float atkSpeed;
     public float atkRange;
@@ -22,6 +22,7 @@ public class UnitType : ScriptableObject
     public float health;
 
     [Header("-----OTHER-----")] 
+    public float mass;
     public float cost;
     public string faction;
     public SpriteRenderer renderer;

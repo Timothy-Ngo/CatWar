@@ -45,7 +45,7 @@ public class Selection : MonoBehaviour
     {
         wp1 = Camera.main.ScreenToWorldPoint(startMousePosition);
         wp2 = Camera.main.ScreenToWorldPoint(Input.mousePosition);   
-        Debug.Log((wp2-wp1).sqrMagnitude);
+        //Debug.Log((wp2-wp1).sqrMagnitude);
         if ((wp2 - wp1).sqrMagnitude < selectionSensitivity)
         {
             ClearSelection(); // if not small box, then clear selection
