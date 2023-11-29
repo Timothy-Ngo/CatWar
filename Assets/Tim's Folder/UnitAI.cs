@@ -6,12 +6,11 @@ public class UnitAI : MonoBehaviour
 {
     public List<Command> commands;
 
-    public List<Move> moves;
+    
     // Start is called before the first frame update
     void Awake()
     {
         commands = new List<Command>();
-        moves = new List<Move>();
     }
 
     // Update is called once per frame
@@ -37,8 +36,5 @@ public class UnitAI : MonoBehaviour
     {
         //c.Init(); // Not needed since Init() usually draws lines which we don't want
         commands.Add(c);
-        if (moves == null)
-            moves = new List<Move>();
-        moves.Add(c as Move);
     }
 }

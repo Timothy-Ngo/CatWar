@@ -92,4 +92,6 @@ public class Move : Command
         return ((unit.position - movePosition).sqrMagnitude < doneDistanceSq * (AIMovement.inst.selection.playerUnits.units.Count * 0.8f));
     }
     
+    
+    
 }

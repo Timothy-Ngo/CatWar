@@ -8,10 +8,12 @@ using UnityEngine;
 [System.Serializable]
 public class Unit : MonoBehaviour
 {
+    public GameObject projectilePrefab;
+    public RectTransform healthBar;
     public UnitType unitType;
     private GameObject selectionCircle;
     public List<Unit> detectableUnits;
-    
+    public Unit targetUnit;
     public bool isSelected
     {
         set { selectionCircle.SetActive(value); }
@@ -25,7 +27,10 @@ public class Unit : MonoBehaviour
     
     public float speed; 
     public float desiredSpeed;
-    
+    private float atkRange;
+    private float detectionRange;
+    private float atkTimer;
+    public float currentHealth;
 
     public void Start()
     {
@@ -41,21 +46,44 @@ public class Unit : MonoBehaviour
         position = startingPosition;
         transform.position = position;
         float rad = GetComponent<CircleCollider2D>().radius;
-        unitType.detectionRadius = rad * 0.75f;
-        unitType.atkRange = rad * 0.5f;
+        atkRange = rad * unitType.atkRangeInRad;
+        detectionRange = rad * unitType.detectionRangeInRad;
+        currentHealth = unitType.health;
+        atkTimer = unitType.atkSpeed;
     }
 
     void Update()
     {
-        if (detectableUnits.Count > 0)
+        if (detectableUnits.Count > 0 && targetUnit == null)
         {
             foreach (Unit unit in detectableUnits)
             {
                 Vector2 diff = unit.position - position;
                 //Debug.Log(diff.sqrMagnitude);
-                if (diff.sqrMagnitude < Mathf.Pow(unitType.atkRange, 2))
+                if (diff.sqrMagnitude < Mathf.Pow(atkRange, 2))
                 {
-                    
+                    targetUnit = unit;
+                }
+            }
+        }
+
+        if (targetUnit != null)
+        {
+            if (atkTimer > 0)
+            {
+                atkTimer -= Time.deltaTime;
+            }
+            else
+            {
+                if (unitType.isRanged)
+                {
+                    GameObject go = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                    go.gameObject.GetComponent<Projectile>().Init(transform.position,targetUnit.position,  targetUnit, unitType.atkDamage);
+                    atkTimer = unitType.atkSpeed;
+                }
+                else
+                {
+                    Debug.Log($"Melee attacking {targetUnit}");
                 }
             }
         }
@@ -77,5 +105,21 @@ public class Unit : MonoBehaviour
         Unit colUnit = col.gameObject.GetComponent<Unit>();
         Debug.Assert(detectableUnits.Contains(colUnit));
         detectableUnits.Remove(colUnit);
+    }
+
+    public void TakeDamage(float dmgAmount)
+    {
+        float result = currentHealth - dmgAmount;
+        if (result <= 0)
+        {
+            //TODO: Do something  here to kill Unit, make it a method
+            currentHealth = 0;
+        }
+        else
+        {
+            currentHealth = result;
+            healthBar.localScale = new Vector3(currentHealth / unitType.health, healthBar.localScale.y,
+                healthBar.localScale.z);
+        }
     }
 }

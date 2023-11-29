@@ -13,18 +13,18 @@ public class UnitType : ScriptableObject
     public float minSpeed;
     public float acceleration;
     public float turnRate;
-    
+
     [Header("-----ATTACK-----")] 
+    public bool isRanged;
     public float atkSpeed;
-    public float atkRange;
     public float atkDamage;
-    public float detectionRadius;
+    
+    [Tooltip("What percentage of the collider radius should be the attack range")] public float atkRangeInRad;
+    [Tooltip("What percentage of the collider radius should be the detection range")] public float detectionRangeInRad;
     public float health;
 
     [Header("-----OTHER-----")] 
     public float mass;
     public float cost;
     public string faction;
-    public SpriteRenderer renderer;
-
 }

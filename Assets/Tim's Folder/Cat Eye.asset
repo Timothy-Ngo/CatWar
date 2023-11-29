@@ -16,12 +16,12 @@ MonoBehaviour:
   minSpeed: 0
   acceleration: 5
   turnRate: 120
-  atkSpeed: 0
-  atkRange: 0
-  atkDamage: 0
-  detectionRadius: 0
-  health: 0
+  isRanged: 1
+  atkSpeed: 1
+  atkDamage: 1
+  atkRangeInRad: 0.5
+  detectionRangeInRad: 0.75
+  health: 10
   mass: 1
   cost: 0
   faction: player2
-  renderer: {fileID: 0}
