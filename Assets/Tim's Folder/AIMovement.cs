@@ -37,7 +37,6 @@ public class AIMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Vector2 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log(wp);
             HandleMove(selection.selectedUnits, wp);
         }
     }

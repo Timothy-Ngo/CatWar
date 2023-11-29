@@ -10,7 +10,6 @@ public class UnitType : ScriptableObject
 {
     [Header("-----MOVEMENT-----")]
     public float maxSpeed;
-
     public float minSpeed;
     public float acceleration;
     public float turnRate;
@@ -19,6 +18,7 @@ public class UnitType : ScriptableObject
     public float atkSpeed;
     public float atkRange;
     public float atkDamage;
+    public float detectionRadius;
     public float health;
 
     [Header("-----OTHER-----")] 

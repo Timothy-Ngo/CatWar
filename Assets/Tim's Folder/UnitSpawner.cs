@@ -28,9 +28,10 @@ public class UnitSpawner : MonoBehaviour
         for (int i = 0; i < num; i++)
         {
             GameObject go = Instantiate(unitPrefab, transform.position, Quaternion.identity);
-            units.Add(go.GetComponent<Unit>());
-            Vector2 newPosition = (Vector2)transform.position + new Vector2(10, 0);
             Unit newUnit = go.GetComponent<Unit>();
+            newUnit.Init(transform.position);
+            units.Add(newUnit);
+            Vector2 newPosition = (Vector2)transform.position + new Vector2(10, 0);
             newUnit.position = transform.position;
             DistanceMgr.inst.Initialize();
             Move m = new Move(newUnit, newPosition);

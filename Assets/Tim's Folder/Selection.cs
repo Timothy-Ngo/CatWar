@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -5,6 +6,13 @@ using UnityEngine;
 
 public class Selection : MonoBehaviour
 {
+    public static Selection inst;
+
+    private void Awake()
+    {
+        inst = this;
+    }
+
     public bool isSelecting = false;
     public Vector2 startMousePosition;
     public float selectionSensitivity = 10f;
@@ -100,9 +108,8 @@ public class Selection : MonoBehaviour
         // Make sure to check the entities are within your faction
         foreach (Unit unit in playerUnits.units)
         {
-            Debug.Log("here");
             Vector2 pos = unit.gameObject.transform.position;
-            Debug.Log((wp1.x <= pos.x && pos.x <= wp2.x) && (wp2.y <= pos.y && pos.y <= wp1.y));
+
             if ((wp1.x <= pos.x && pos.x <= wp2.x) && (wp2.y <= pos.y && pos.y <= wp1.y)
                 || (wp2.x <= pos.x && pos.x <= wp1.x) && (wp1.y <= pos.y && pos.y <= wp2.y))
             {

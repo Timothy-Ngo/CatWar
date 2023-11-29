@@ -85,16 +85,11 @@ public class Move : Command
     public override void Stop()
     {
         unit.desiredSpeed = 0;
-        Debug.Log("Stop called");
     }
 
     public override bool IsDone()
     {
-        if ((unit.position - movePosition).sqrMagnitude < doneDistanceSq)
-        {
-            Debug.Log("true");
-        }
-        return ((unit.position - movePosition).sqrMagnitude < doneDistanceSq * (AIMovement.inst.selection.playerUnits.units.Count / 2));
+        return ((unit.position - movePosition).sqrMagnitude < doneDistanceSq * (AIMovement.inst.selection.playerUnits.units.Count * 0.8f));
     }
     
 }

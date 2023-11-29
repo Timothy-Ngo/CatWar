@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 075bf5ce804b77f4787ee7c24cbf2aab, type: 3}
-  m_Name: Iron Cat
+  m_Name: Cat Eye
   m_EditorClassIdentifier: 
   maxSpeed: 5
   minSpeed: 0
@@ -19,9 +19,9 @@ MonoBehaviour:
   atkSpeed: 0
   atkRange: 0
   atkDamage: 0
-  detectionRadius: 2.5
+  detectionRadius: 0
   health: 0
   mass: 1
   cost: 0
-  faction: player1
+  faction: player2
   renderer: {fileID: 0}
