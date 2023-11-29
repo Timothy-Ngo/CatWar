@@ -27,8 +27,9 @@ public class UI : MonoBehaviour
     }
 
     bool screenToggled = false;
-    public void ToggleBuyScreen(Canvas buyScreen)
+    public void ToggleBuyScreen(GameObject buyScreen)
     {
-        buyScreen.enabled = !screenToggled;
+        buyScreen.SetActive(!screenToggled);
+        screenToggled = !screenToggled;
     }
 }
