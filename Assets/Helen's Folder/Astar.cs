@@ -72,24 +72,7 @@ public class Astar : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            /*
-            RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
-            if (rayHit)
-            {
-                Debug.Log(rayHit.transform.name);
-            }
-             */
-
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, obstacleLayerMask);
-
-            if (hit.collider != null)
-            {
-                Debug.Log("Target Position: " + hit.collider.gameObject.transform.position);
-            }
-
-        }
+        
         if (Selection.inst.selectedUnits.Count != 0)
         {
             startPointPosition = Selection.inst.selectedUnits[0].position;
@@ -99,13 +82,13 @@ public class Astar : MonoBehaviour
 
                 
 
-                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, groundLayerMask);
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition),  Vector2.zero, Mathf.Infinity, groundLayerMask);
 
-                if (hit.collider != null)
+                if (hit.collider != null || true)
                 {
                     Debug.Log("Ending Position: " + hit.point);
-                    endPointPosition = hit.point;
-
+                    //endPointPosition = hit.point;
+                    endPointPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Debug.Log("Path generated");
                     GeneratePathWaypoints(FindPath());
 

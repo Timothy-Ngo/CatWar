@@ -18,10 +18,10 @@ MonoBehaviour:
   turnRate: 120
   isRanged: 1
   atkSpeed: 2
-  atkDamage: 1
+  atkDamage: 3
   atkRangeInRad: 0.5
   detectionRangeInRad: 0.75
-  health: 10
+  health: 20
   mass: 1
   cost: 0
   faction: player1

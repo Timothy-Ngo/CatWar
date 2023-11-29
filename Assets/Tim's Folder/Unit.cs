@@ -60,6 +60,11 @@ public class Unit : MonoBehaviour
         {
             foreach (Unit unit in detectableUnits)
             {
+                if (unit == null)
+                {
+                    detectableUnits.Remove(unit);
+                    continue;
+                }
                 Vector2 diff = unit.position - position;
                 //Debug.Log(diff.sqrMagnitude);
                 if (diff.sqrMagnitude <= Mathf.Pow(atkRange, 2))
@@ -110,7 +115,9 @@ public class Unit : MonoBehaviour
                     targetUnit = null;
                 }
             }
-
+        }
+        else
+        {
             
         }
     }
@@ -136,7 +143,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float dmgAmount)
+    public void TakeDamage(float dmgAmount, Unit senderUnit)
     {
         float result = currentHealth - dmgAmount;
         if (result <= 0)
@@ -149,6 +156,7 @@ public class Unit : MonoBehaviour
             DistanceMgr.inst.potentialsDictionary.Remove(this);
             DistanceMgr.inst.playerUnits.units.Remove(this);
             DistanceMgr.inst.otherPlayerUnits.units.Remove(this);
+            senderUnit.detectableUnits.Remove(this);
             Destroy(this.gameObject, 1f);
         }
         else

@@ -41,7 +41,7 @@ public class Projectile : MonoBehaviour
     {
         if (IsDone())
         {
-            targetUnit.TakeDamage(damage);
+            targetUnit.TakeDamage(damage, senderUnit);
             //senderUnit.detectableUnits.Remove(targetUnit);
             Destroy(this.gameObject);
         }
