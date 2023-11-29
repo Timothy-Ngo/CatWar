@@ -16,7 +16,7 @@ public class Astar : MonoBehaviour
     public float xMin, xMax, yMin, yMax;
 
 
-    public RaycastHit hit;
+    public RaycastHit2D hit;
     int groundLayerMask;
     int obstacleLayerMask;
 
@@ -33,15 +33,13 @@ public class Astar : MonoBehaviour
     HashSet<Node> explored;
     List<Node> smoothPath;
 
-    [SerializeField] bool debugView = false;
-
     void Start()
     {
         frontier = new List<Node>();
         explored = new HashSet<Node>();
 
-        groundLayerMask = 1 << 3;
-        obstacleLayerMask = 1 << 7;
+        groundLayerMask = 1 << 6;
+        obstacleLayerMask = 1 << 3;
 
         nodes = new Node[nodeCountX, nodeCountY];
         // code from slides
@@ -54,13 +52,13 @@ public class Astar : MonoBehaviour
                 nodes[i, j] = new Node();
                 float xPos = xMin + i * (xMax - xMin) / (nodeCountX - 1);
                 float yPos = yMin + j * (yMax - yMin) / (nodeCountY - 1);
-                nodes[i, j].worldPosition = new Vector3(xPos, yPos, 0.5f);
+                nodes[i, j].worldPosition = new Vector3(xPos, yPos, 0);
                 nodes[i, j].gridPositionX = i;
                 nodes[i, j].gridPositionY = j;
-                if (debugView)
-                {
-                    Instantiate(waypointPrefab, nodes[i,j].worldPosition, Quaternion.identity);
-                }
+
+                // Check where all nodes are
+                //Instantiate(waypointPrefab, nodes[i,j].worldPosition, Quaternion.identity);
+
             }
         }
         Debug.Log(nodes.Length);
@@ -74,15 +72,37 @@ public class Astar : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            /*
+            RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
+            if (rayHit)
+            {
+                Debug.Log(rayHit.transform.name);
+            }
+             */
+
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, obstacleLayerMask);
+
+            if (hit.collider != null)
+            {
+                Debug.Log("Target Position: " + hit.collider.gameObject.transform.position);
+            }
+
+        }
         if (Selection.inst.selectedUnits.Count != 0)
         {
             startPointPosition = Selection.inst.selectedUnits[0].position;
             if (Input.GetMouseButtonDown(1))
             {
                 Debug.Log("Starting Position: " + Selection.inst.selectedUnits[0].position);
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, float.MaxValue, groundLayerMask))
-                {
 
+                
+
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, groundLayerMask);
+
+                if (hit.collider != null)
+                {
                     Debug.Log("Ending Position: " + hit.point);
                     endPointPosition = hit.point;
 
@@ -96,9 +116,8 @@ public class Astar : MonoBehaviour
                             Debug.Log("Move to: " + smoothPath[i].worldPosition);
                             MoveToCheckpoint(smoothPath[i].worldPosition);
                         }
-                        
-                    }
 
+                    }
                 }
             }
         }
@@ -244,22 +263,39 @@ public class Astar : MonoBehaviour
                 {
                     Node newNode = nodes[indexX, indexY];
 
-
                     nearbyNodes.Add(newNode);
-                    if (Physics.Raycast(node.worldPosition,
+                    //Debug.DrawRay(node.worldPosition, new Vector2(i, j) * 10 , Color.magenta, float.MaxValue);
+                    /*
+                    if (Physics2D.Raycast(node.worldPosition,
                         new Vector3(i, j, 0),
-                        out RaycastHit obstacleHit,
                         Vector3.Magnitude(newNode.worldPosition - node.worldPosition), obstacleLayerMask))
                     {
-                        //Debug.DrawRay(node.worldPosition, new Vector3(i, 0, j) * 10 , Color.magenta, float.MaxValue);
 
+                        nearbyNodes.Remove(newNode);
+                    }
+                     */
+                    Vector2 vectorDiff = newNode.worldPosition - node.worldPosition;
+                    float distance = vectorDiff.magnitude;
+
+                    
+
+                    RaycastHit2D hit = Physics2D.Raycast(node.worldPosition, new Vector2(i, j), distance, obstacleLayerMask);
+
+                    if (hit.collider != null)
+                    {
                         nearbyNodes.Remove(newNode);
                     }
                 }
             }
         }
-
-        //Debug.Log($"Amount of available nodes: {nearbyNodes.Count}");
+        
+        // Check how nodes are expanded
+        //foreach (Node nearbyNode in nearbyNodes)
+        //{
+        //    Instantiate(waypointPrefab, nearbyNode.worldPosition, Quaternion.identity);
+        //}
+        
+        Debug.Log($"Amount of available nodes: {nearbyNodes.Count}");
         return nearbyNodes;
     }
 
@@ -306,7 +342,7 @@ public class Astar : MonoBehaviour
             for (int i = 1; i < path.Count - 1; i++)
             {
                 int smoothLastIndex = smoothPath.Count - 1;
-                if (Physics.Linecast(smoothPath[smoothLastIndex].worldPosition, path[i + 1].worldPosition, obstacleLayerMask))
+                if (Physics2D.Linecast(smoothPath[smoothLastIndex].worldPosition, path[i + 1].worldPosition, obstacleLayerMask))
                 {
                     smoothPath.Add(path[i]);
                 }

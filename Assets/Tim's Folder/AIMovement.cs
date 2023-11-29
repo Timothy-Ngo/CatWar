@@ -23,6 +23,7 @@ public class AIMovement : MonoBehaviour
     [Header("-----OTHER-----")]
     public RaycastHit hit;
     public int layerMask;
+    public bool astar = false;
 
     public Selection selection;
     // Start is called before the first frame update
@@ -34,10 +35,13 @@ public class AIMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (!astar)
         {
-            Vector2 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            HandleMove(selection.selectedUnits, wp);
+            if (Input.GetMouseButtonDown(1))
+            {
+                Vector2 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                HandleMove(selection.selectedUnits, wp);
+            }
         }
     }
 

@@ -26,4 +26,9 @@ public class UI : MonoBehaviour
         currencyText.text = "Cash: " + currency.ToString();
     }
 
+    bool screenToggled = false;
+    public void ToggleBuyScreen(Canvas buyScreen)
+    {
+        buyScreen.enabled = !screenToggled;
+    }
 }

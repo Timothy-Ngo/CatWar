@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour
     public GameObject projectilePrefab;
     public RectTransform healthBar;
     public UnitType unitType;
-    private GameObject selectionCircle;
+    public GameObject selectionCircle;
     public List<Unit> detectableUnits;
     public Unit targetUnit;
     public bool isSelected
@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour
     public void Start()
     {
         detectableUnits = new List<Unit>();
-        selectionCircle = transform.GetChild(0).gameObject;
+        //selectionCircle = transform.GetChild(0).gameObject;
         Init(transform.position);
     }
 
@@ -103,8 +103,11 @@ public class Unit : MonoBehaviour
     public void OnTriggerExit2D(Collider2D col)
     {
         Unit colUnit = col.gameObject.GetComponent<Unit>();
-        Debug.Assert(detectableUnits.Contains(colUnit));
-        detectableUnits.Remove(colUnit);
+        if (colUnit != null && colUnit.unitType.faction != unitType.faction)
+        {  
+            Debug.Assert(detectableUnits.Contains(colUnit));
+            detectableUnits.Remove(colUnit);
+        }
     }
 
     public void TakeDamage(float dmgAmount)

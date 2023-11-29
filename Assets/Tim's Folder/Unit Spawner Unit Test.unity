@@ -592,6 +592,7 @@ MonoBehaviour:
   repulsiveCoefficient: 2500
   repulsiveExponent: -2
   layerMask: 0
+  astar: 0
   selection: {fileID: 905206949}
 --- !u!4 &1079102394
 Transform:

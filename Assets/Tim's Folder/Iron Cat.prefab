@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8058629735673193895}
   - component: {fileID: 1084859413769608006}
   - component: {fileID: 1222426110752930049}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Iron Cat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,14 +100,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45fec7e70e578dd499ed837728adfb02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 0}
+  healthBar: {fileID: 0}
   unitType: {fileID: 11400000, guid: 4e0b7932e434fae4784c179e5c53ace8, type: 2}
+  selectionCircle: {fileID: 5171178535946053997}
   detectableUnits: []
+  targetUnit: {fileID: 0}
   position: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
   heading: 0
   desiredHeading: 0
   speed: 0
   desiredSpeed: 0
+  currentHealth: 0
 --- !u!114 &6903022128570048298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commands: []
-  moves: []
 --- !u!58 &1084859413769608006
 CircleCollider2D:
   m_ObjectHideFlags: 0
