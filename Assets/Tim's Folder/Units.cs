@@ -16,6 +16,7 @@ public class Units : MonoBehaviour
         {
             playerUnits.units.Add(unit);
         }
+        DistanceMgr.inst.Initialize();
     }
 
     // Update is called once per frame

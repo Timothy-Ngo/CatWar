@@ -52,7 +52,7 @@ public class AIMovement : MonoBehaviour
             Move m = new Move(unit, point);
             UnitAI uai = unit.GetComponent<UnitAI>();
             Debug.Assert(uai != null);
-            uai.AddCommand(m);
+            uai.SetCommand(m);
             //uai.SetCommand(m);
         }
     }

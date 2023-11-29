@@ -45,7 +45,7 @@ public class OrientedPhysics : MonoBehaviour
         transform.localPosition = unit.position;
 
         eulerRotation.z = unit.heading;
-        transform.localEulerAngles = eulerRotation;
+        //transform.localEulerAngles = eulerRotation;
     }
 
     public Vector3 eulerRotation = Vector3.zero;

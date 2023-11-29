@@ -31,10 +31,24 @@ public class UnitAI : MonoBehaviour
         commands[index].Stop();
         commands.RemoveAt(index);
     }
-
+    public void StopAndRemoveAllCommands()
+    {
+        for(int i = commands.Count - 1; i >= 0; i--) {
+            StopAndRemoveCommand(i);
+        }
+    }
     public void AddCommand(Command c)
     {
         //c.Init(); // Not needed since Init() usually draws lines which we don't want
         commands.Add(c);
+    }
+    
+    public void SetCommand(Command c)
+    {
+        //print("Setting command: " + c.ToString());
+        StopAndRemoveAllCommands();
+        commands.Clear();
+        AddCommand(c);
+
     }
 }

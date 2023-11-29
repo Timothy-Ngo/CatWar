@@ -23,6 +23,7 @@ public class Selection : MonoBehaviour
     private Vector2 wp2;
 
     public UnitGroup playerUnits;
+    public UnitGroup otherPlayerUnits;
     public List<Unit> selectedUnits = new List<Unit>();
     
     // Update is called once per frame
@@ -72,6 +73,11 @@ public class Selection : MonoBehaviour
         {
             unit.isSelected = false;
         }
+
+        foreach (Unit unit in otherPlayerUnits.units)
+        {
+            unit.isSelected = false;
+        }
     }
     public void UpdateSelectionBox(Vector2 start, Vector2 end)
     {
@@ -114,6 +120,16 @@ public class Selection : MonoBehaviour
                 || (wp2.x <= pos.x && pos.x <= wp1.x) && (wp1.y <= pos.y && pos.y <= wp2.y))
             {
                 selectedUnits.Add(unit);
+                unit.isSelected = true;
+            }
+        }
+        foreach (Unit unit in otherPlayerUnits.units)
+        {
+            Vector2 pos = unit.gameObject.transform.position;
+
+            if ((wp1.x <= pos.x && pos.x <= wp2.x) && (wp2.y <= pos.y && pos.y <= wp1.y)
+                || (wp2.x <= pos.x && pos.x <= wp1.x) && (wp1.y <= pos.y && pos.y <= wp2.y))
+            {
                 unit.isSelected = true;
             }
         }

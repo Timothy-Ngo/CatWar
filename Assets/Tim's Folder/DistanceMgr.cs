@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -93,6 +94,7 @@ public class DistanceMgr : MonoBehaviour
     }
 
     public UnitGroup playerUnits;
+    public UnitGroup otherPlayerUnits;
     public Selection selection;
     
     public Potential[,] potentials2D;
@@ -108,20 +110,22 @@ public class DistanceMgr : MonoBehaviour
         isInitialized = true;
         potentialsDictionary = new Dictionary<Unit, Dictionary<Unit, Potential>>();
         potentialsList = new List<List<Potential>>();
-        int n = playerUnits.units.Count;
+        List<Unit> totalUnits = playerUnits.units.Concat(otherPlayerUnits.units).ToList();
+        int n = totalUnits.Count;
         potentials2D = new Potential[n, n];
         i = 0;
-        foreach (Unit unit1 in playerUnits.units) {
+        foreach (Unit unit1 in totalUnits) {
             Dictionary<Unit, Potential> unit1PotDictionary = new Dictionary<Unit, Potential>();
             List<Potential> unit1PotList = new List<Potential>();
             potentialsDictionary.Add(unit1, unit1PotDictionary);
             potentialsList.Add(unit1PotList);
             j = 0;
-            foreach (Unit unit2 in playerUnits.units) {
+            foreach (Unit unit2 in totalUnits) {
                 Potential pot = new Potential(unit1, unit2);
                 unit1PotDictionary.Add(unit2, pot);
                 unit1PotList.Add(pot);
                 potentials2D[i,j] = pot;
+                
                 j++;
             }
             i++;
@@ -136,29 +140,37 @@ public class DistanceMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Debug.Log("I Button pressed");
+            Initialize();
+        }
         if (isInitialized)
             UpdatePotentials();
         else
             Initialize();
+        
     }
     
     void UpdatePotentials()
     {
         Potential p1, p2;
         Unit unit1, unit2;
-        for(int i = 0; i < playerUnits.units.Count - 1; i++) {
-            unit1 = playerUnits.units[i];
+        List<Unit> totalUnits = playerUnits.units.Concat(otherPlayerUnits.units).ToList();
+        for(int i = 0; i < totalUnits.Count - 1; i++) {
+            unit1 = totalUnits[i];
             /*
             if (unit1 == selection.selectedEntity)
                 selectedEntityPotentials = potentialsList[i];
             */
             //don't do diagonal
-            for(int j = i+1; j < playerUnits.units.Count; j++) {
-                unit2 = playerUnits.units[j];
+            for(int j = i+1; j < totalUnits.Count; j++) {
+                unit2 = totalUnits[j];
 
                 p1 = potentials2D[i, j];
                 p2 = potentials2D[j, i];
-
+                Debug.Assert(p1 != null, "p1 is null");
+                Debug.Assert(p2 != null, $"p2[{j}][{i}] is null");
                 //p1
                 p1.diff = p1.target.position - p1.ownship.position;
                 p1.distance = p1.diff.magnitude;

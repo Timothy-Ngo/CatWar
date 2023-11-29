@@ -37,7 +37,7 @@ public class UnitSpawner : MonoBehaviour
             Move m = new Move(newUnit, newPosition);
             UnitAI uai = newUnit.GetComponent<UnitAI>();
             Debug.Assert(uai != null);
-            uai.AddCommand(m);
+            uai.SetCommand(m);
         }
     }
 }

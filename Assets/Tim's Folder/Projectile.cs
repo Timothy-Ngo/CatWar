@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float damage;
+    public Unit senderUnit;
     public Unit targetUnit;
     public UnitType unitType;
     public Vector2 position;
@@ -25,11 +26,12 @@ public class Projectile : MonoBehaviour
         
     }
 
-    public void Init(Vector2 startingPosition, Vector2 tPosition, Unit tUnit, float dmg)
+    public void Init(Vector2 startingPosition, Vector2 tPosition, Unit sUnit, Unit tUnit, float dmg)
     {
         position = startingPosition;
         targetPosition = tPosition;
         uai = GetComponent<UnitAI>();
+        senderUnit = sUnit;
         targetUnit = tUnit;
         damage = dmg;
     }
@@ -40,6 +42,7 @@ public class Projectile : MonoBehaviour
         if (IsDone())
         {
             targetUnit.TakeDamage(damage);
+            //senderUnit.detectableUnits.Remove(targetUnit);
             Destroy(this.gameObject);
         }
         else
@@ -47,6 +50,11 @@ public class Projectile : MonoBehaviour
             DHDS dhds = ComputeProjectileDHDS();
             desiredSpeed = dhds.ds;
             desiredHeading = dhds.dh;
+        }
+
+        if (targetUnit == null)
+        {
+            Destroy(this.gameObject);
         }
     }
 

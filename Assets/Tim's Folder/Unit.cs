@@ -8,6 +8,7 @@ using UnityEngine;
 [System.Serializable]
 public class Unit : MonoBehaviour
 {
+    public UnitAI unitAI;
     public GameObject projectilePrefab;
     public RectTransform healthBar;
     public UnitType unitType;
@@ -31,10 +32,11 @@ public class Unit : MonoBehaviour
     private float detectionRange;
     private float atkTimer;
     public float currentHealth;
-
+    
     public void Start()
     {
         detectableUnits = new List<Unit>();
+        unitAI = GetComponent<UnitAI>();
         //selectionCircle = transform.GetChild(0).gameObject;
         Init(transform.position);
     }
@@ -60,9 +62,24 @@ public class Unit : MonoBehaviour
             {
                 Vector2 diff = unit.position - position;
                 //Debug.Log(diff.sqrMagnitude);
-                if (diff.sqrMagnitude < Mathf.Pow(atkRange, 2))
+                if (diff.sqrMagnitude <= Mathf.Pow(atkRange, 2))
                 {
+                    //Debug.Log("In Attack ranged");
                     targetUnit = unit;
+                }
+                else if (diff.sqrMagnitude < Mathf.Pow(detectionRange, 2) && unitAI.commands.Count == 0)
+                {
+                    //Debug.Log("In deterction ranged");
+                    Vector2 normalized = diff.normalized;
+                    float distToNearbyPoint = diff.magnitude - atkRange;
+                    Vector2 nearbyPoint = normalized * distToNearbyPoint * 1.5f;
+                    List<Unit> unitList = new List<Unit>();
+                    unitList.Add(this);
+                    AIMovement.inst.HandleMove(unitList, nearbyPoint + position );
+                }
+                else
+                {
+                    //Debug.Log("In range");
                 }
             }
         }
@@ -75,17 +92,26 @@ public class Unit : MonoBehaviour
             }
             else
             {
+                if (unitType.faction == "player2")
+                    Debug.Log("player 2 unit");
                 if (unitType.isRanged)
                 {
                     GameObject go = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-                    go.gameObject.GetComponent<Projectile>().Init(transform.position,targetUnit.position,  targetUnit, unitType.atkDamage);
+                    go.gameObject.GetComponent<Projectile>().Init(transform.position,targetUnit.position,  this, targetUnit, unitType.atkDamage);
                     atkTimer = unitType.atkSpeed;
                 }
                 else
                 {
                     Debug.Log($"Melee attacking {targetUnit}");
                 }
+                Vector2 diff = targetUnit.position - position;
+                if (diff.sqrMagnitude > Mathf.Pow(atkRange, 2))
+                {
+                    targetUnit = null;
+                }
             }
+
+            
         }
     }
 
@@ -95,7 +121,7 @@ public class Unit : MonoBehaviour
         if ( colUnit != null && colUnit.unitType.faction != unitType.faction)
         {
             detectableUnits.Add(colUnit);
-            Debug.Log($"Added {colUnit} to detectableUnits");
+            //Debug.Log($"Added {colUnit} to detectableUnits");
         }
     }
 
@@ -117,6 +143,13 @@ public class Unit : MonoBehaviour
         {
             //TODO: Do something  here to kill Unit, make it a method
             currentHealth = 0;
+            healthBar.localScale = new Vector3(currentHealth / unitType.health, healthBar.localScale.y,
+                healthBar.localScale.z);
+            Selection.inst.selectedUnits.Remove(this);
+            DistanceMgr.inst.potentialsDictionary.Remove(this);
+            DistanceMgr.inst.playerUnits.units.Remove(this);
+            DistanceMgr.inst.otherPlayerUnits.units.Remove(this);
+            Destroy(this.gameObject, 1f);
         }
         else
         {
