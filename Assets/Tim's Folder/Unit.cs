@@ -88,7 +88,12 @@ public class Unit : MonoBehaviour
                 }
                 Vector2 diff = unit.position - position;
                 //Debug.Log(diff.sqrMagnitude);
-                if (diff.sqrMagnitude <= Mathf.Pow(atkRange, 2))
+                if (unit.unitType.job == "nexus")
+                {
+                    targetUnit = unit;
+                    break;
+                }
+                else if (diff.sqrMagnitude <= Mathf.Pow(atkRange, 2))
                 {
                     //Debug.Log("In Attack ranged");
                     targetUnit = unit;
@@ -101,6 +106,7 @@ public class Unit : MonoBehaviour
                     Vector2 nearbyPoint = normalized * distToNearbyPoint * 1.5f;
                     List<Unit> unitList = new List<Unit>();
                     unitList.Add(this);
+                    unitAI.StopAndRemoveAllCommands();
                     AIMovement.inst.HandleMove(unitList, nearbyPoint + position );
                 }
                 else
