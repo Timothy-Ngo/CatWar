@@ -28,6 +28,7 @@ public class OrientedPhysics : MonoBehaviour
         unit.speed = Utils.Clamp(unit.speed, unit.unitType.minSpeed, unit.unitType.maxSpeed);
 
         //heading
+        
         if (Utils.ApproximatelyEqual(unit.heading, unit.desiredHeading)) {
             ;
         } else if (Utils.AngleDiffPosNeg(unit.desiredHeading, unit.heading) > 0) {
@@ -35,6 +36,8 @@ public class OrientedPhysics : MonoBehaviour
         } else if (Utils.AngleDiffPosNeg(unit.desiredHeading, unit.heading) < 0) {
             unit.heading -= unit.unitType.turnRate * Time.deltaTime;
         }
+         
+        //unit.heading = unit.desiredHeading;
         unit.heading = Utils.Degrees360(unit.heading);
         
         // TODO: Ensure that flipping the x and y with cos and sin is correct

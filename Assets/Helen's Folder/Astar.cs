@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using JetBrains.Annotations;
 
 public class Astar : MonoBehaviour
 {
@@ -78,30 +79,84 @@ public class Astar : MonoBehaviour
             startPointPosition = Selection.inst.selectedUnits[0].position;
             if (Input.GetMouseButtonDown(1))
             {
+
                 Debug.Log("Starting Position: " + Selection.inst.selectedUnits[0].position);
 
+
+                Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                //RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition),  Vector2.zero, Mathf.Infinity, groundLayerMask);
                 
+                //Ray ray = new Ray(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward);
+                //RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
 
-                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition),  Vector2.zero, Mathf.Infinity, groundLayerMask);
+                // https://forum.unity.com/threads/2d-raycast-in-z-direction.525010/
+                Collider2D[] colliders = Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
-                if (hit.collider != null || true)
+                // loops through each collider hit
+                foreach(Collider2D collider in colliders)
                 {
-                    Debug.Log("Ending Position: " + hit.point);
-                    //endPointPosition = hit.point;
-                    endPointPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Debug.Log("Path generated");
-                    GeneratePathWaypoints(FindPath());
-
-                    if (smoothPath.Count > 0)
+                    // if mouse click hits an obstacle --> don't do anything
+                    if (collider.gameObject.CompareTag("Obstacle"))
                     {
-                        for (int i = 0; i < smoothPath.Count; i++)
-                        {
-                            Debug.Log("Move to: " + smoothPath[i].worldPosition);
-                            MoveToCheckpoint(smoothPath[i].worldPosition);
-                        }
-
+                        break;
                     }
+                    // otherwise if mouse click hits the ground -- then do astar
+                    else if (collider.gameObject.CompareTag("Ground"))
+                    {
+                        Debug.Log("Ending Position: " + hit.point);
+                        //endPointPosition = hit.point;
+                        endPointPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Debug.Log("Path generated");
+                        GeneratePathWaypoints(FindPath());
+
+                        if (smoothPath.Count > 0)
+                        {
+                            for (int i = 0; i < smoothPath.Count; i++)
+                            {
+                                Debug.Log("Move to: " + smoothPath[i].worldPosition);
+                                MoveToCheckpoint(smoothPath[i].worldPosition);
+                            }
+
+                        }
+                            
+                    }
+                        
                 }
+                
+                 
+
+                /*
+                Vector2 mousePos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+
+                Collider2D[] collidersUnderMouse = new Collider2D[4];
+                int numCollidersUnderMouse = Physics2D.OverlapPoint(mousePos, new ContactFilter2D(), collidersUnderMouse);
+
+                for (int i = 0; i < numCollidersUnderMouse; ++i)
+                {
+                    if (collidersUnderMouse[i].CompareTag("Ground"))
+                    {
+                        Debug.Log("hit");
+                    }
+                    // Check if collidersUnderMouse[i] is the type of object you want using tags or GetComponent()
+                    // Then do what you want to it
+                }
+                 */
+
+                /*
+                Vector3 mouseScreen = Input.mousePosition;
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mouseScreen.x, mouseScreen.y, 100.0f)); // Turns the mouses position on the screen into a point in world space.
+                //cursorPos = mousePos;
+                Debug.Log(mousePos.x + "." + mousePos.y);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, mousePos, 100, obstacleLayerMask);
+                Debug.DrawLine(transform.position, mousePos, Color.cyan);
+
+                if (hit.collider)
+                {
+                    Debug.Log("Collision");
+                    //Debug.DrawLine(transform.position, hit.point, Color.red);
+                    Debug.DrawLine(transform.position, mousePos, Color.red, 10f);
+                }
+                 */
             }
         }
     }
@@ -273,10 +328,12 @@ public class Astar : MonoBehaviour
         }
         
         // Check how nodes are expanded
-        //foreach (Node nearbyNode in nearbyNodes)
-        //{
-        //    Instantiate(waypointPrefab, nearbyNode.worldPosition, Quaternion.identity);
-        //}
+        /*
+        foreach (Node nearbyNode in nearbyNodes)
+        {
+            Instantiate(waypointPrefab, nearbyNode.worldPosition, Quaternion.identity);
+        }
+         */
         
         Debug.Log($"Amount of available nodes: {nearbyNodes.Count}");
         return nearbyNodes;
@@ -308,8 +365,7 @@ public class Astar : MonoBehaviour
 
     public List<Node> GeneratePathWaypoints(List<Node> path)
     {
-        smoothPath = new List<Node>();
-        int lastIndex = path.Count - 1;
+        
 
         // filter through path and find the waypoints
         // display waypoints
@@ -320,6 +376,9 @@ public class Astar : MonoBehaviour
         }
         else
         {
+            smoothPath = new List<Node>();
+            int lastIndex = path.Count - 1;
+
             smoothPath.Add(path[0]);
 
             for (int i = 1; i < path.Count - 1; i++)
