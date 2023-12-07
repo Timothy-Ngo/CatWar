@@ -4260,7 +4260,7 @@ MonoBehaviour:
   units: {fileID: 41184437}
   unitPrefab: {fileID: 1640896950522603862, guid: 77efc908590513d459b07f678cccb520, type: 3}
   isAI: 1
-  spawnInterval: 20
+  spawnInterval: 15
 --- !u!212 &1732249726
 SpriteRenderer:
   m_ObjectHideFlags: 0

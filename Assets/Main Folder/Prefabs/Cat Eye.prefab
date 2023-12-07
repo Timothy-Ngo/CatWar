@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitAI: {fileID: 4526141143238929050}
-  projectilePrefab: {fileID: 2801655971340713193, guid: 4ec5330cb0c05cc418c98c645e74fdd4, type: 3}
+  projectilePrefab: {fileID: 2801655971340713193, guid: e220b706124fdc147b7bcc6712ca9de6, type: 3}
   healthBar: {fileID: 6685855282605971301}
   unitType: {fileID: 11400000, guid: 8c46dd3ff412d28409d675c51e83332e, type: 2}
   selectionCircle: {fileID: 1640896950038062672}
