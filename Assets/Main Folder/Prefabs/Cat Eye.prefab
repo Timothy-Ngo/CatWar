@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -427722123
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ea07ee084a703f848b51fdc798b9ad22, type: 3}
   m_Color: {r: 0.030385952, g: 0.9716981, b: 0, a: 1}
@@ -96,11 +96,11 @@ GameObject:
   - component: {fileID: 1640896950522603882}
   - component: {fileID: 1065772437811892247}
   - component: {fileID: 4526141143238929050}
-  - component: {fileID: 6775706924244784251}
   - component: {fileID: 3211084863844277735}
+  - component: {fileID: 4744187954689977999}
   m_Layer: 6
   m_Name: Cat Eye
-  m_TagString: Untagged
+  m_TagString: Cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,6 +117,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1640896950038062673}
+  - {fileID: 6299122681690740303}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -158,7 +159,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -427722123
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e17321f23b75b764982fef868fccb9f4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -188,6 +189,7 @@ MonoBehaviour:
   healthBar: {fileID: 6685855282605971301}
   unitType: {fileID: 11400000, guid: 8c46dd3ff412d28409d675c51e83332e, type: 2}
   selectionCircle: {fileID: 1640896950038062672}
+  detectionCollider: {fileID: 6421420431009875436}
   detectableUnits: []
   targetUnit: {fileID: 0}
   position: {x: 5, y: 0}
@@ -197,6 +199,9 @@ MonoBehaviour:
   speed: 0
   desiredSpeed: 0
   currentHealth: 0
+  resourceMoneyText: {fileID: 0}
+  resourceDelay: 2
+  resourceCost: 10
 --- !u!114 &1065772437811892247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,22 +229,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commands: []
---- !u!58 &6775706924244784251
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640896950522603862}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 25
 --- !u!50 &3211084863844277735
 Rigidbody2D:
   serializedVersion: 4
@@ -261,6 +250,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &4744187954689977999
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640896950522603862}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.05, y: 0.24}
+  serializedVersion: 2
+  m_Radius: 1.16
 --- !u!1 &2612057590412142521
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,6 +341,53 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2781711547662784021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6299122681690740303}
+  - component: {fileID: 6421420431009875436}
+  m_Layer: 0
+  m_Name: Detection Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6299122681690740303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2781711547662784021}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1640896950522603881}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &6421420431009875436
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2781711547662784021}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 25
 --- !u!1 &7316656445645912550
 GameObject:
   m_ObjectHideFlags: 0

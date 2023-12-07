@@ -34,6 +34,9 @@ public class Astar : MonoBehaviour
     HashSet<Node> explored;
     List<Node> smoothPath;
 
+    public bool showNodes = false;
+    public bool showWayPointPath = false;
+
     void Start()
     {
         frontier = new List<Node>();
@@ -58,7 +61,8 @@ public class Astar : MonoBehaviour
                 nodes[i, j].gridPositionY = j;
 
                 // Check where all nodes are
-                //Instantiate(waypointPrefab, nodes[i,j].worldPosition, Quaternion.identity);
+                if (showNodes)
+                    Instantiate(waypointPrefab, nodes[i,j].worldPosition, Quaternion.identity);
 
             }
         }
@@ -80,10 +84,11 @@ public class Astar : MonoBehaviour
             if (Input.GetMouseButtonDown(1))
             {
 
-                Debug.Log("Starting Position: " + Selection.inst.selectedUnits[0].position);
+                //Debug.Log("Starting Position: " + Selection.inst.selectedUnits[0].position);
 
 
-                Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                //Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                
                 //RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition),  Vector2.zero, Mathf.Infinity, groundLayerMask);
                 
                 //Ray ray = new Ray(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward);
@@ -105,15 +110,15 @@ public class Astar : MonoBehaviour
                     {
                         //endPointPosition = hit.point;
                         endPointPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        Debug.Log("Ending Position: " + endPointPosition);
-                        Debug.Log("Path generated");
+                        //Debug.Log("Ending Position: " + endPointPosition);
+                        //Debug.Log("Path generated");
                         GeneratePathWaypoints(FindPath());
 
                         if (smoothPath.Count > 0)
                         {
                             for (int i = 0; i < smoothPath.Count; i++)
                             {
-                                Debug.Log("Move to: " + smoothPath[i].worldPosition);
+                                //Debug.Log("Move to: " + smoothPath[i].worldPosition);
                                 MoveToCheckpoint(smoothPath[i].worldPosition);
                             }
 
@@ -293,14 +298,16 @@ public class Astar : MonoBehaviour
         }
         
         // Check how nodes are expanded
-        /*
-        foreach (Node nearbyNode in nearbyNodes)
+        if (showWayPointPath)
         {
-            Instantiate(waypointPrefab, nearbyNode.worldPosition, Quaternion.identity);
+            foreach (Node nearbyNode in nearbyNodes)
+            {
+                Instantiate(waypointPrefab, nearbyNode.worldPosition, Quaternion.identity);
+            }
         }
-         */
         
-        Debug.Log($"Amount of available nodes: {nearbyNodes.Count}");
+        
+        //Debug.Log($"Amount of available nodes: {nearbyNodes.Count}");
         return nearbyNodes;
     }
 
@@ -341,6 +348,9 @@ public class Astar : MonoBehaviour
         }
         else
         {
+            
+            // BUG: Smooth Path not working -- Physics2D.Linecast is not detecting obstacles
+
             smoothPath = new List<Node>();
             int lastIndex = path.Count - 1;
 
@@ -349,6 +359,7 @@ public class Astar : MonoBehaviour
             for (int i = 1; i < path.Count - 1; i++)
             {
                 int smoothLastIndex = smoothPath.Count - 1;
+
                 if (Physics2D.Linecast(smoothPath[smoothLastIndex].worldPosition, path[i + 1].worldPosition, obstacleLayerMask))
                 {
                     smoothPath.Add(path[i]);
@@ -356,6 +367,7 @@ public class Astar : MonoBehaviour
             }
 
             smoothPath.Add(path[lastIndex]);
+            
         }
         return null;
     }
@@ -366,7 +378,9 @@ public class Astar : MonoBehaviour
             //Debug.Log(unit);
             Move m = new Move(unit, newPosition);
             UnitAI ai = unit.GetComponent<UnitAI>();
+            ai.StopAndRemoveAllCommands();
             ai.AddCommand(m);
+
         }
 
     }

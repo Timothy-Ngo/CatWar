@@ -30,6 +30,8 @@ public class Selection : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) { //start box selecting
+            
+
             isSelecting = true;
             StartBoxSelecting();
         }
@@ -37,6 +39,36 @@ public class Selection : MonoBehaviour
         if (Input.GetMouseButtonUp(0)) { //end box selecting
             isSelecting = false;
             EndBoxSelecting();
+
+
+
+            // Single Unit Selection
+            Collider2D[] colliders = Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+            // loops through each collider hit
+            foreach (Collider2D collider in colliders)
+            {
+
+                if (collider.gameObject.CompareTag("Cat"))
+                {
+                    ClearSelection();
+                    Unit unit = collider.gameObject.GetComponent<Unit>();
+
+                    if (playerUnits.units.Contains(unit))
+                    {
+                        Debug.Log("selected unit");
+                        selectedUnits.Add(unit);
+                        unit.isSelected = true;
+                        
+                    }
+
+                    if (otherPlayerUnits.units.Contains(unit))
+                    {
+                        unit.isSelected = true;
+                    }
+                }
+
+            }
         }
         if (isSelecting)
         {
@@ -111,6 +143,8 @@ public class Selection : MonoBehaviour
 
     public void SelectUnitsInBox(Vector2 start, Vector2 end)
     {
+        ClearSelection();
+
         // Make sure to check the entities are within your faction
         foreach (Unit unit in playerUnits.units)
         {

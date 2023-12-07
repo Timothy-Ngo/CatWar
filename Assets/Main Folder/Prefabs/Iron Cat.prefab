@@ -175,6 +175,53 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &4845024039538888827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1513025250327975224}
+  - component: {fileID: 52369327503673234}
+  m_Layer: 7
+  m_Name: Detection Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1513025250327975224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4845024039538888827}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5171178535486875220}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &52369327503673234
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4845024039538888827}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 25
 --- !u!1 &5171178535486875243
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,11 +235,11 @@ GameObject:
   - component: {fileID: 5171178535486875223}
   - component: {fileID: 6903022128570048298}
   - component: {fileID: 8058629735673193895}
-  - component: {fileID: 1084859413769608006}
   - component: {fileID: 1222426110752930049}
+  - component: {fileID: 1154329781838316601}
   m_Layer: 7
   m_Name: Iron Cat
-  m_TagString: Untagged
+  m_TagString: Cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -209,6 +256,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5171178535946053996}
+  - {fileID: 1513025250327975224}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -250,7 +298,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -427722123
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: cf596bf89c11ace43b3eb6525a2ae12f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -280,6 +328,7 @@ MonoBehaviour:
   healthBar: {fileID: 4891405687304316229}
   unitType: {fileID: 11400000, guid: 4e0b7932e434fae4784c179e5c53ace8, type: 2}
   selectionCircle: {fileID: 5171178535946053997}
+  detectionCollider: {fileID: 52369327503673234}
   detectableUnits: []
   targetUnit: {fileID: 0}
   position: {x: 0, y: 0}
@@ -289,6 +338,9 @@ MonoBehaviour:
   speed: 0
   desiredSpeed: 0
   currentHealth: 0
+  resourceMoneyText: {fileID: 0}
+  resourceDelay: 2
+  resourceCost: 10
 --- !u!114 &6903022128570048298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,22 +368,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commands: []
---- !u!58 &1084859413769608006
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5171178535486875243}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 25
 --- !u!50 &1222426110752930049
 Rigidbody2D:
   serializedVersion: 4
@@ -353,6 +389,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &1154329781838316601
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171178535486875243}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.05, y: 0.24}
+  serializedVersion: 2
+  m_Radius: 1.16
 --- !u!1 &5171178535946053997
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +475,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -427722123
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ea07ee084a703f848b51fdc798b9ad22, type: 3}
   m_Color: {r: 0.030385952, g: 0.9716981, b: 0, a: 1}

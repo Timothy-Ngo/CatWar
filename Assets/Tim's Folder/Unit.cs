@@ -14,6 +14,7 @@ public class Unit : MonoBehaviour
     public RectTransform healthBar;
     public UnitType unitType;
     public GameObject selectionCircle;
+    public CircleCollider2D detectionCollider;
     public List<Unit> detectableUnits;
     public Unit targetUnit;
     public bool isSelected
@@ -52,8 +53,12 @@ public class Unit : MonoBehaviour
         //selectionCircle = transform.GetChild(0).gameObject;
         Init(transform.position);
 
-        resourceMoneyText.text = "+" + resourceCost.ToString();
-        resourceMoneyText.gameObject.SetActive(false);
+        if (unitType.job == "worker")
+        {
+            resourceMoneyText.text = "+" + resourceCost.ToString();
+            resourceMoneyText.gameObject.SetActive(false);
+        }
+        
     }
 
     public void Init(Vector2 startingPosition)
@@ -62,7 +67,8 @@ public class Unit : MonoBehaviour
         isSelected = false;
         position = startingPosition;
         transform.position = position;
-        float rad = GetComponent<CircleCollider2D>().radius;
+        //float rad = GetComponent<CircleCollider2D>().radius;
+        float rad = detectionCollider.radius;
         atkRange = rad * unitType.atkRangeInRad;
         detectionRange = rad * unitType.detectionRangeInRad;
         currentHealth = unitType.health;
