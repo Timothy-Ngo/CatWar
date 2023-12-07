@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - Ground
+  - Resources
   layers:
   - Default
   - TransparentFX
@@ -46,11 +47,11 @@ TagManager:
   - name: Background
     uniqueID: 1481753751
     locked: 0
-  - name: Units
-    uniqueID: 3867245173
-    locked: 0
   - name: Buildings
     uniqueID: 3120670599
+    locked: 0
+  - name: Units
+    uniqueID: 3867245173
     locked: 0
   - name: UI
     uniqueID: 1583359909

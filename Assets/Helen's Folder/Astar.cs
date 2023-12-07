@@ -103,9 +103,9 @@ public class Astar : MonoBehaviour
                     // otherwise if mouse click hits the ground -- then do astar
                     else if (collider.gameObject.CompareTag("Ground"))
                     {
-                        Debug.Log("Ending Position: " + hit.point);
                         //endPointPosition = hit.point;
                         endPointPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Debug.Log("Ending Position: " + endPointPosition);
                         Debug.Log("Path generated");
                         GeneratePathWaypoints(FindPath());
 
@@ -122,41 +122,6 @@ public class Astar : MonoBehaviour
                     }
                         
                 }
-                
-                 
-
-                /*
-                Vector2 mousePos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-
-                Collider2D[] collidersUnderMouse = new Collider2D[4];
-                int numCollidersUnderMouse = Physics2D.OverlapPoint(mousePos, new ContactFilter2D(), collidersUnderMouse);
-
-                for (int i = 0; i < numCollidersUnderMouse; ++i)
-                {
-                    if (collidersUnderMouse[i].CompareTag("Ground"))
-                    {
-                        Debug.Log("hit");
-                    }
-                    // Check if collidersUnderMouse[i] is the type of object you want using tags or GetComponent()
-                    // Then do what you want to it
-                }
-                 */
-
-                /*
-                Vector3 mouseScreen = Input.mousePosition;
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mouseScreen.x, mouseScreen.y, 100.0f)); // Turns the mouses position on the screen into a point in world space.
-                //cursorPos = mousePos;
-                Debug.Log(mousePos.x + "." + mousePos.y);
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, mousePos, 100, obstacleLayerMask);
-                Debug.DrawLine(transform.position, mousePos, Color.cyan);
-
-                if (hit.collider)
-                {
-                    Debug.Log("Collision");
-                    //Debug.DrawLine(transform.position, hit.point, Color.red);
-                    Debug.DrawLine(transform.position, mousePos, Color.red, 10f);
-                }
-                 */
             }
         }
     }
@@ -398,7 +363,7 @@ public class Astar : MonoBehaviour
     {
         foreach (Unit unit in Selection.inst.selectedUnits)
         {
-            Debug.Log(unit);
+            //Debug.Log(unit);
             Move m = new Move(unit, newPosition);
             UnitAI ai = unit.GetComponent<UnitAI>();
             ai.AddCommand(m);

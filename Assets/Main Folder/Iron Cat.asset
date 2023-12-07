@@ -15,13 +15,14 @@ MonoBehaviour:
   maxSpeed: 5
   minSpeed: 0
   acceleration: 5
-  turnRate: 120
+  turnRate: 360
   isRanged: 1
-  atkSpeed: 2
-  atkDamage: 3
+  atkSpeed: 1
+  atkDamage: 1
   atkRangeInRad: 0.5
   detectionRangeInRad: 0.75
-  health: 20
+  health: 10
   mass: 1
   cost: 0
   faction: player1
+  job: 

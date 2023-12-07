@@ -25,7 +25,7 @@ public class UnitSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Vector2 rallyPoint = (Vector2)transform.position  + new Vector2(10, 0);
-            Spawn(1, transform.position, rallyPoint);
+            Spawn(1, unitPrefab, transform.position, rallyPoint);
         }
 
         if (isAI)
@@ -37,13 +37,13 @@ public class UnitSpawner : MonoBehaviour
             else
             {
                 Vector2 rallyPoint = (Vector2)transform.position + new Vector2(-50, 9);
-                Spawn(1, transform.position, rallyPoint);
+                Spawn(1, unitPrefab, transform.position, rallyPoint);
                 spawnTimer = spawnInterval;
             }
         }
     }
 
-    public void Spawn(int num, Vector2 spawnPos, Vector2 rallyPoint)
+    public void Spawn(int num, GameObject unitPrefab, Vector2 spawnPos, Vector2 rallyPoint)
     {
         for (int i = 0; i < num; i++)
         {
@@ -60,10 +60,10 @@ public class UnitSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnUnit()
+    public void SpawnUnit(GameObject unitPrefab)
     {
         Vector2 rallyPoint = (Vector2)transform.position  + new Vector2(10, 0);
-        Spawn(1, transform.position, rallyPoint);
+        Spawn(1, unitPrefab, transform.position, rallyPoint);
     }
     
     

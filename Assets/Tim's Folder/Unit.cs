@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 /// <summary>
 /// Unit Gameobject script
@@ -20,6 +21,8 @@ public class Unit : MonoBehaviour
         set { selectionCircle.SetActive(value); }
         get { return selectionCircle.activeSelf; }
     }
+
+    [Header("-----ORIENTED PHYSICS-----")]
     public Vector2 position;
     public Vector2 velocity;
 
@@ -28,17 +31,29 @@ public class Unit : MonoBehaviour
     
     public float speed; 
     public float desiredSpeed;
+
+    [Header("-----BATTLE STATS-----")]
     private float atkRange;
     private float detectionRange;
     private float atkTimer;
     public float currentHealth;
-    
+
+    [Header("-----RESOURCE COLLECTION-----")]
+    public TextMeshProUGUI resourceMoneyText;
+    public int resourceDelay = 2;
+    public int resourceCost = 10;
+    private IEnumerator coroutine;
+
+
     public void Start()
     {
         detectableUnits = new List<Unit>();
         unitAI = GetComponent<UnitAI>();
         //selectionCircle = transform.GetChild(0).gameObject;
         Init(transform.position);
+
+        resourceMoneyText.text = "+" + resourceCost.ToString();
+        resourceMoneyText.gameObject.SetActive(false);
     }
 
     public void Init(Vector2 startingPosition)
@@ -124,11 +139,24 @@ public class Unit : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D col)
     {
+
         Unit colUnit = col.gameObject.GetComponent<Unit>();
-        if ( colUnit != null && colUnit.unitType.faction != unitType.faction)
+        
+        if ( unitType.job == "worker")
         {
-            detectableUnits.Add(colUnit);
-            //Debug.Log($"Added {colUnit} to detectableUnits");
+            if (col.gameObject.CompareTag("Resources"))
+            {
+                StartResourceCollection();
+                
+            }
+        }
+        else
+        {
+            if ( colUnit != null && colUnit.unitType.faction != unitType.faction)
+            {
+                detectableUnits.Add(colUnit);
+                //Debug.Log($"Added {colUnit} to detectableUnits");
+            }
         }
     }
 
@@ -136,13 +164,53 @@ public class Unit : MonoBehaviour
     public void OnTriggerExit2D(Collider2D col)
     {
         Unit colUnit = col.gameObject.GetComponent<Unit>();
-        if (colUnit != null && colUnit.unitType.faction != unitType.faction)
-        {  
-            Debug.Assert(detectableUnits.Contains(colUnit));
-            detectableUnits.Remove(colUnit);
+
+        if (unitType.job == "worker")
+        {
+            if (col.gameObject.CompareTag("Resources"))
+            {
+                StopResourceCollection();
+            }
         }
+        else
+        {
+            if (colUnit != null && colUnit.unitType.faction != unitType.faction)
+            {
+                Debug.Assert(detectableUnits.Contains(colUnit));
+                detectableUnits.Remove(colUnit);
+            }
+        }
+        
     }
 
+    public void StartResourceCollection()
+    {
+        resourceMoneyText.gameObject.SetActive(false);
+        coroutine = CollectResources();
+        StartCoroutine(coroutine);
+    }
+
+    // continously collects resources
+    IEnumerator CollectResources()
+    {
+
+        yield return new WaitForSeconds(resourceDelay);
+        resourceMoneyText.gameObject.SetActive(true);
+        UI.inst.UpdateCurrencyText(resourceCost);
+
+        UI.inst.ResetTextAlpha(resourceMoneyText);
+        UI.inst.FadeTextOut(resourceMoneyText);
+
+        coroutine = CollectResources();
+        StartCoroutine(coroutine);
+
+    }
+
+    public void StopResourceCollection()
+    {
+        resourceMoneyText.gameObject.SetActive(false);
+        StopCoroutine(coroutine);
+    }
     public void TakeDamage(float dmgAmount, Unit senderUnit)
     {
         float result = currentHealth - dmgAmount;

@@ -25,6 +25,7 @@ public class UnitType : ScriptableObject
 
     [Header("-----OTHER-----")] 
     public float mass;
-    public float cost;
+    public int cost;
     public string faction;
+    public string job;
 }

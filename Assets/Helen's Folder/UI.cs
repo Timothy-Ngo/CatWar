@@ -42,4 +42,9 @@ public class UI : MonoBehaviour
     {
         fadedText.CrossFadeAlpha(1f, 0f, false);
     }
+
+    public int GetCurrency() 
+    { 
+        return currency; 
+    }
 }
