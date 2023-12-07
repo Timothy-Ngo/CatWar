@@ -19,24 +19,34 @@ public class Economy : MonoBehaviour
     public UnitType catEye;
 
     // TODO: restrict buying if player does not have enough money
+    private void Start()
+    {
+        UI.inst.rangedCatBuyButtonText.text = "($" + ironCat.cost + ") Spawn Ranged Cat";
+        UI.inst.workerCatBuyButtonText.text = "($" + happy.cost + ") Spawn Worker Cat";
 
+    }
     public void BuyCat(UnitType cat)
     {
         if (cat == ironCat)
         {
-            battleCatCost = ironCat.cost;
+            battleCatCost = -ironCat.cost;
         }
         else if (cat == happy)
         {
-            battleCatCost = happy.cost;
+            battleCatCost = -happy.cost;
         }
         else if (cat == catEye)
         {
-            battleCatCost = catEye.cost; 
+            battleCatCost = -catEye.cost; 
+        }
+        else
+        {
+            Debug.Log("invalid unit type");
         }
 
         if (UI.inst.GetCurrency() >= battleCatCost)
         {
+
             UI.inst.UpdateCurrencyText(battleCatCost);
         }
         else

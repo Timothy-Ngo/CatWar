@@ -45,6 +45,8 @@ public class Unit : MonoBehaviour
     public int resourceCost = 10;
     private IEnumerator coroutine;
 
+    public int lootMoney = 10;
+
 
     public void Start()
     {
@@ -228,6 +230,12 @@ public class Unit : MonoBehaviour
         float result = currentHealth - dmgAmount;
         if (result <= 0)
         {
+            // give player money for killing units
+            if (unitType.faction == "player2")
+            {
+                UI.inst.UpdateCurrencyText(lootMoney);
+            }
+
             //TODO: Do something  here to kill Unit, make it a method
             currentHealth = 0;
             healthBar.localScale = new Vector3(currentHealth / unitType.health, healthBar.localScale.y,

@@ -15,6 +15,13 @@ public class UI : MonoBehaviour
     public int currency = 300;
     bool screenToggled = false;
 
+
+    // drag into the inspector
+    public TextMeshProUGUI rangedCatBuyButtonText;
+    public TextMeshProUGUI meleeCatBuyButtonText;
+    public TextMeshProUGUI workerCatBuyButtonText;
+
+
     private void Start()
     {
         currencyText.text = "Cash: " + currency.ToString();

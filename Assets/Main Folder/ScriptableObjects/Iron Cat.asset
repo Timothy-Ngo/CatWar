@@ -23,6 +23,6 @@ MonoBehaviour:
   detectionRangeInRad: 0.75
   health: 10
   mass: 1
-  cost: 0
+  cost: 50
   faction: player1
   job: 
