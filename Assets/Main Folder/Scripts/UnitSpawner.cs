@@ -53,10 +53,7 @@ public class UnitSpawner : MonoBehaviour
             units.Add(newUnit);
             newUnit.position = spawnPos;
             DistanceMgr.inst.Initialize();
-            Move m = new Move(newUnit, rallyPoint);
-            UnitAI uai = newUnit.GetComponent<UnitAI>();
-            Debug.Assert(uai != null);
-            uai.SetCommand(m);
+            AIMovement.inst.HandleSetOneMove(newUnit, rallyPoint);
         }
     }
 

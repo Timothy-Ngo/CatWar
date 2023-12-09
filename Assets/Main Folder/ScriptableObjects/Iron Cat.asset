@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075bf5ce804b77f4787ee7c24cbf2aab, type: 3}
   m_Name: Iron Cat
   m_EditorClassIdentifier: 
+  isPotentialFieldsMovement: 1
+  potentialDistanceThreshold: 100
+  attractionCoefficient: 4000
+  attractiveExponent: -1
+  repulsiveCoefficient: 3000
+  repulsiveExponent: -2.5
   maxSpeed: 5
   minSpeed: 0
   acceleration: 5

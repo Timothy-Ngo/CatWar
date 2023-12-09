@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 075bf5ce804b77f4787ee7c24cbf2aab, type: 3}
-  m_Name: Cat Eye
+  m_Name: Cat Widow
   m_EditorClassIdentifier: 
   isPotentialFieldsMovement: 1
   potentialDistanceThreshold: 100
@@ -22,13 +22,13 @@ MonoBehaviour:
   minSpeed: 0
   acceleration: 5
   turnRate: 360
-  isRanged: 1
+  isRanged: 0
   atkSpeed: 1
-  atkDamage: 1
-  atkRangeInRad: 0.5
+  atkDamage: 2
+  atkRangeInRad: 0.2
   detectionRangeInRad: 0.75
   health: 10
   mass: 1
-  cost: 50
-  faction: player2
+  cost: 0
+  faction: player1
   job: 

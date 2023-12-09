@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075bf5ce804b77f4787ee7c24cbf2aab, type: 3}
   m_Name: Worker
   m_EditorClassIdentifier: 
+  isPotentialFieldsMovement: 0
+  potentialDistanceThreshold: 100
+  attractionCoefficient: 1800
+  attractiveExponent: -1
+  repulsiveCoefficient: 2000
+  repulsiveExponent: -2
   maxSpeed: 5
   minSpeed: 0
   acceleration: 5

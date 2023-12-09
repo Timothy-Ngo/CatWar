@@ -8,6 +8,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class UnitType : ScriptableObject
 {
+    [Header("-----POTENTIAL FIELD PARAMETERS-----")]
+    public bool isPotentialFieldsMovement = false;
+    public float potentialDistanceThreshold = 100;
+    [Tooltip("Increase this value to increase attractive strength")] public float attractionCoefficient = 1800;
+    public float attractiveExponent = -1;
+    [Tooltip("Increase this value to increase the repulsive strength")] public float repulsiveCoefficient = 2000;
+    public float repulsiveExponent = -2.0f;
+    
     [Header("-----MOVEMENT-----")]
     public float maxSpeed;
     public float minSpeed;

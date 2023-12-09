@@ -93,24 +93,28 @@ public class DistanceMgr : MonoBehaviour
         inst = this;
     }
 
-    public UnitGroup playerUnits;
-    public UnitGroup otherPlayerUnits;
+    public UnitGroup player1Units;
+    public UnitGroup player2Units;
+    public UnitGroup obstacles;
     public Selection selection;
     
     public Potential[,] potentials2D;
     public Dictionary<Unit, Dictionary<Unit, Potential>> potentialsDictionary;
-    public List<List<Potential>> potentialsList;
+    //public List<List<Potential>> potentialsList;
     
     public bool isInitialized = false;
     public int i = 0;
     public int j = 0;
-    
+
+    void Start()
+    {
+    }
     public void Initialize()
     {
         isInitialized = true;
         potentialsDictionary = new Dictionary<Unit, Dictionary<Unit, Potential>>();
-        potentialsList = new List<List<Potential>>();
-        List<Unit> totalUnits = playerUnits.units.Concat(otherPlayerUnits.units).ToList();
+        //potentialsList = new List<List<Potential>>();
+        List<Unit> totalUnits = player1Units.units.Concat(player2Units.units).Concat(obstacles.units).ToList();
         int n = totalUnits.Count;
         potentials2D = new Potential[n, n];
         i = 0;
@@ -118,14 +122,13 @@ public class DistanceMgr : MonoBehaviour
             Dictionary<Unit, Potential> unit1PotDictionary = new Dictionary<Unit, Potential>();
             List<Potential> unit1PotList = new List<Potential>();
             potentialsDictionary.Add(unit1, unit1PotDictionary);
-            potentialsList.Add(unit1PotList);
+            //potentialsList.Add(unit1PotList);
             j = 0;
             foreach (Unit unit2 in totalUnits) {
                 Potential pot = new Potential(unit1, unit2);
                 unit1PotDictionary.Add(unit2, pot);
                 unit1PotList.Add(pot);
                 potentials2D[i,j] = pot;
-                
                 j++;
             }
             i++;
@@ -156,21 +159,19 @@ public class DistanceMgr : MonoBehaviour
     {
         Potential p1, p2;
         Unit unit1, unit2;
-        List<Unit> totalUnits = playerUnits.units.Concat(otherPlayerUnits.units).ToList();
+        List<Unit> totalUnits = player1Units.units.Concat(player2Units.units).Concat(obstacles.units).ToList();
         for(int i = 0; i < totalUnits.Count - 1; i++) {
-            unit1 = totalUnits[i];
             /*
             if (unit1 == selection.selectedEntity)
                 selectedEntityPotentials = potentialsList[i];
             */
             //don't do diagonal
             for(int j = i+1; j < totalUnits.Count; j++) {
-                unit2 = totalUnits[j];
 
                 p1 = potentials2D[i, j];
                 p2 = potentials2D[j, i];
                 Debug.Assert(p1 != null, "p1 is null");
-                Debug.Assert(p2 != null, $"p2[{j}][{i}] is null");
+                Debug.Assert(p2 != null, "p2 is null");
                 //p1
                 p1.diff = p1.target.position - p1.ownship.position;
                 p1.distance = p1.diff.magnitude;
@@ -189,13 +190,26 @@ public class DistanceMgr : MonoBehaviour
                 p2.relativeBearingDegrees = p2.cpaInfo.targetRelativeBearing;
             }
         }
+        
     }
     
     public Potential GetPotential(Unit u1, Unit u2)
     {
         Potential p = null;
+        // Need to check if u1 or u2 are null
         if (isInitialized)
             p = potentialsDictionary[u1][u2];
         return p;
+    }
+
+    /// <summary>
+    /// Must be called to update potential field data 
+    /// </summary>
+    public void RemoveUnit(Unit unit)
+    {
+        potentialsDictionary.Remove(unit);
+        player1Units.units.Remove(unit);
+        player2Units.units.Remove(unit);
+        
     }
 }

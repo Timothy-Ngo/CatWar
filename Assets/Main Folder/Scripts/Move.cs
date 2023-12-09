@@ -58,19 +58,35 @@ public class Move : Command
     {
         Potential p;
         repulsivePotential = Vector3.zero; // TODO: Determine if we need this to be vector.zero or vector.one  
-        foreach (Unit otherUnit in AIMovement.inst.selection.playerUnits.units) {
+        foreach (Unit otherUnit in AIMovement.inst.selection.player1Units.units) {
             if (otherUnit == unit) continue;
+            Debug.Assert(otherUnit != null, $"{unit.name} is null"); 
+            Debug.Assert(unit != null, $"{unit.name} is null");
             p = DistanceMgr.inst.GetPotential(unit, otherUnit);
-            if (p.distance < AIMovement.inst.potentialDistanceThreshold) {
+            if (p.distance < unit.unitType.potentialDistanceThreshold) {
                 repulsivePotential += p.direction * unit.unitType.mass *
-                                      AIMovement.inst.repulsiveCoefficient * Mathf.Pow(p.diff.magnitude, AIMovement.inst.repulsiveExponent);
+                                      unit.unitType.repulsiveCoefficient * Mathf.Pow(p.diff.magnitude, unit.unitType.repulsiveExponent);
             }
 
         }
+
+        foreach (Unit otherUnit in DistanceMgr.inst.obstacles.units)
+        {
+            if (otherUnit == unit) continue;
+            Debug.Assert(unit != null, $"{unit.name} is null");
+            Debug.Assert(otherUnit != null, $"{otherUnit.name} is null"); 
+            p = DistanceMgr.inst.GetPotential(unit, otherUnit);
+            if (p.distance < otherUnit.unitType.potentialDistanceThreshold) {
+                repulsivePotential += p.direction * otherUnit.unitType.mass *
+                                      otherUnit.unitType.repulsiveCoefficient * Mathf.Pow(p.diff.magnitude, otherUnit.unitType.repulsiveExponent);
+            }
+        }
+
+        //Debug.Log(repulsivePotential);
         attractivePotential = movePosition - unit.position;
         Vector3 normalizedDiff = attractivePotential.normalized;
-        attractivePotential = normalizedDiff * AIMovement.inst.attractionCoefficient *
-                              Mathf.Pow(attractivePotential.magnitude, AIMovement.inst.attractiveExponent);
+        attractivePotential = normalizedDiff * unit.unitType.attractionCoefficient *
+                              Mathf.Pow(attractivePotential.magnitude, unit.unitType.attractiveExponent);
         potentialSum = attractivePotential - repulsivePotential;
         
         dh = Utils.Degrees360(Mathf.Rad2Deg * Mathf.Atan2(potentialSum.y, potentialSum.x));
@@ -89,7 +105,7 @@ public class Move : Command
 
     public override bool IsDone()
     {
-        return ((unit.position - movePosition).sqrMagnitude < doneDistanceSq * (AIMovement.inst.selection.playerUnits.units.Count * 0.8f));
+        return ((unit.position - movePosition).sqrMagnitude < doneDistanceSq * (AIMovement.inst.selection.player1Units.units.Count * 0.8f));
     }
     
     

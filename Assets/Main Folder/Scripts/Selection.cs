@@ -22,8 +22,8 @@ public class Selection : MonoBehaviour
     private Vector2 wp1;
     private Vector2 wp2;
 
-    public UnitGroup playerUnits;
-    public UnitGroup otherPlayerUnits;
+    public UnitGroup player1Units;
+    public UnitGroup player2Units;
     public List<Unit> selectedUnits = new List<Unit>();
     
     // Update is called once per frame
@@ -54,7 +54,7 @@ public class Selection : MonoBehaviour
                     ClearSelection();
                     Unit unit = collider.gameObject.GetComponent<Unit>();
 
-                    if (playerUnits.units.Contains(unit))
+                    if (player1Units.units.Contains(unit))
                     {
                         Debug.Log("selected unit");
                         selectedUnits.Add(unit);
@@ -62,7 +62,7 @@ public class Selection : MonoBehaviour
                         
                     }
 
-                    if (otherPlayerUnits.units.Contains(unit))
+                    if (player2Units.units.Contains(unit))
                     {
                         unit.isSelected = true;
                     }
@@ -101,12 +101,12 @@ public class Selection : MonoBehaviour
     public void ClearSelection()
     {
         selectedUnits.Clear();
-        foreach (Unit unit in playerUnits.units)
+        foreach (Unit unit in player1Units.units)
         {
             unit.isSelected = false;
         }
 
-        foreach (Unit unit in otherPlayerUnits.units)
+        foreach (Unit unit in player2Units.units)
         {
             unit.isSelected = false;
         }
@@ -146,7 +146,7 @@ public class Selection : MonoBehaviour
         ClearSelection();
 
         // Make sure to check the entities are within your faction
-        foreach (Unit unit in playerUnits.units)
+        foreach (Unit unit in player1Units.units)
         {
             Vector2 pos = unit.gameObject.transform.position;
 
@@ -157,7 +157,7 @@ public class Selection : MonoBehaviour
                 unit.isSelected = true;
             }
         }
-        foreach (Unit unit in otherPlayerUnits.units)
+        foreach (Unit unit in player2Units.units)
         {
             Vector2 pos = unit.gameObject.transform.position;
 

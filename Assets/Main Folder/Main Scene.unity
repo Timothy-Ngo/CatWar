@@ -455,7 +455,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab7641524991624f9426ceb46a0c4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
+  movementSpeed: 20
   zoomSpeed: 5
   maxSize: 20
   minSize: 10
@@ -1974,10 +1974,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPotentialFieldsMovement: 1
-  potentialDistanceThreshold: 1000
+  potentialDistanceThreshold: 100
   attractionCoefficient: 1800
   attractiveExponent: -1
-  repulsiveCoefficient: 2500
+  repulsiveCoefficient: 2000
   repulsiveExponent: -2
   layerMask: 0
   astar: 1

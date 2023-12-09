@@ -12,7 +12,7 @@ public class CameraMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetComponent<Camera>().orthographicSize = maxSize;
     }
 
     // Update is called once per frame
