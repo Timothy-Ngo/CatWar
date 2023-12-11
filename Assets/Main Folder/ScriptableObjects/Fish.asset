@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Fish
   m_EditorClassIdentifier: 
   isPotentialFieldsMovement: 1
-  potentialDistanceThreshold: 21
+  potentialDistanceThreshold: 29
   attractionCoefficient: 1800
   attractiveExponent: -1
-  repulsiveCoefficient: 8000
+  repulsiveCoefficient: 10000
   repulsiveExponent: -2
   maxSpeed: 0
   minSpeed: 0
@@ -28,7 +28,7 @@ MonoBehaviour:
   atkRangeInRad: 0
   detectionRangeInRad: 0
   health: 0
-  mass: 0
+  mass: 1
   cost: 0
   faction: 
   job: resources
