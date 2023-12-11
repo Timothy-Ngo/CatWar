@@ -104,12 +104,6 @@ public class Unit : MonoBehaviour
                     targetUnit = unit;
                     break;
                 }
-                else if (InAttackRange(unit)) // if the unit the unit is within attack range then attack it
-                {
-                    //Debug.Log("In Attack ranged");
-                    targetUnit = unit;
-                    AIMovement.inst.HandlePriorityAttack(this, targetUnit);
-                }
                 else if ( InDetectionRange(unit) && unitAI.commands.Count == 0) // if the unit is within detection range but out of attack range, then move until within attack range
                 {
                     //Debug.Log("In detection ranged");
@@ -119,7 +113,13 @@ public class Unit : MonoBehaviour
                     float distToNearbyPoint = diff.magnitude - atkRange;
                     Vector2 nearbyPoint = normalized * distToNearbyPoint ;
                     
-                    AIMovement.inst.HandleSetOneMove(this, nearbyPoint + position );
+                    AIMovement.inst.HandlePriorityMove(this, nearbyPoint + position );
+                }
+                else if (InAttackRange(unit)) // if the unit the unit is within attack range then attack it
+                {
+                    //Debug.Log("In Attack ranged");
+                    targetUnit = unit;
+                    AIMovement.inst.HandlePriorityAttack(this, targetUnit);
                 }
                 else
                 {
@@ -169,10 +169,6 @@ public class Unit : MonoBehaviour
         
         Unit colUnit = col.gameObject.GetComponent<Unit>();
         
-        if (colUnit == null || colUnit.unitType.job == "obstacle")
-        {
-            return;
-        }
         if ( unitType.job == "worker")
         {
             if (col.gameObject.CompareTag("Resources"))
@@ -180,6 +176,10 @@ public class Unit : MonoBehaviour
                 StartResourceCollection();
                 
             }
+        }
+        if (colUnit == null || colUnit.unitType.job == "obstacle")
+        {
+            return;
         }
         else
         {

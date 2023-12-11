@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 075bf5ce804b77f4787ee7c24cbf2aab, type: 3}
-  m_Name: Iron Cat
+  m_Name: Boundary
   m_EditorClassIdentifier: 
   isPotentialFieldsMovement: 1
-  potentialDistanceThreshold: 100
-  attractionCoefficient: 4000
+  potentialDistanceThreshold: 23
+  attractionCoefficient: 1800
   attractiveExponent: -1
-  repulsiveCoefficient: 3000
-  repulsiveExponent: -2.5
-  maxSpeed: 10
+  repulsiveCoefficient: 8000
+  repulsiveExponent: -2
+  maxSpeed: 0
   minSpeed: 0
-  acceleration: 10
-  turnRate: 360
-  isRanged: 1
-  atkSpeed: 1
-  atkDamage: 1
-  atkRangeInRad: 0.5
-  detectionRangeInRad: 0.75
-  health: 10
+  acceleration: 0
+  turnRate: 0
+  isRanged: 0
+  atkSpeed: 0
+  atkDamage: 0
+  atkRangeInRad: 0
+  detectionRangeInRad: 0
+  health: 0
   mass: 1
-  cost: 50
-  faction: player1
-  job: 
+  cost: 0
+  faction: 
+  job: obstacle

@@ -96,36 +96,47 @@ public class Astar : MonoBehaviour
 
                 // https://forum.unity.com/threads/2d-raycast-in-z-direction.525010/
                 Collider2D[] colliders = Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
+                bool hitObstacle = false;
+                bool hitGround = false;
                 // loops through each collider hit
                 foreach(Collider2D collider in colliders)
                 {
+                    //Debug.Log(collider);
                     // if mouse click hits an obstacle --> don't do anything
                     if (collider.gameObject.CompareTag("Obstacle"))
                     {
-                        break;
+                        hitObstacle = true;
+                        //Debug.Log("hit obstacle");
+                        
                     }
                     // otherwise if mouse click hits the ground -- then do astar
                     else if (collider.gameObject.CompareTag("Ground"))
                     {
-                        //endPointPosition = hit.point;
-                        endPointPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        //Debug.Log("Ending Position: " + endPointPosition);
-                        //Debug.Log("Path generated");
-                        GeneratePathWaypoints(FindPath());
+                        hitGround = true;
+                        //Debug.Log("hit ground");
 
-                        if (smoothPath.Count > 0)
-                        {
-                            for (int i = 0; i < smoothPath.Count; i++)
-                            {
-                                //Debug.Log("Move to: " + smoothPath[i].worldPosition);
-                                MoveToCheckpoint(smoothPath[i].worldPosition);
-                            }
-
-                        }
-                            
                     }
                         
+                }
+
+                if (!hitObstacle && hitGround)
+                {
+                    
+                    //endPointPosition = hit.point;
+                    endPointPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    //Debug.Log("Ending Position: " + endPointPosition);
+                    //Debug.Log("Path generated");
+                    GeneratePathWaypoints(FindPath());
+
+                    if (smoothPath.Count > 0)
+                    {
+                        for (int i = 0; i < smoothPath.Count; i++)
+                        {
+                            //Debug.Log("Move to: " + smoothPath[i].worldPosition);
+                            MoveToCheckpoint(smoothPath[i].worldPosition);
+                        }
+
+                    }
                 }
             }
         }

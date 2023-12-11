@@ -18,9 +18,9 @@ MonoBehaviour:
   attractiveExponent: -1
   repulsiveCoefficient: 3000
   repulsiveExponent: -2.5
-  maxSpeed: 5
+  maxSpeed: 10
   minSpeed: 0
-  acceleration: 5
+  acceleration: 10
   turnRate: 360
   isRanged: 1
   atkSpeed: 1

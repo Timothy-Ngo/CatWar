@@ -17,6 +17,7 @@ public class Economy : MonoBehaviour
     public UnitType ironCat;
     public UnitType happy;
     public UnitType catEye;
+    public UnitType catWidow;
 
     // TODO: restrict buying if player does not have enough money
     private void Start()
@@ -38,6 +39,10 @@ public class Economy : MonoBehaviour
         else if (cat == catEye)
         {
             battleCatCost = -catEye.cost; 
+        }
+        else if (cat == catWidow)
+        {
+            battleCatCost = -catWidow.cost;
         }
         else
         {

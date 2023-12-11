@@ -63,6 +63,14 @@ public class AIMovement : MonoBehaviour
         
     }
 
+    public void HandlePriorityMove(Unit unit, Vector2 point)
+    {
+        Move m = new Move(unit, point);
+        UnitAI uai = unit.GetComponent<UnitAI>();
+        Debug.Assert(uai != null);
+        uai.PriorityAdd(m);
+    }
+
     public void HandlePriorityAttack(Unit ownUnit, Unit targetUnit)
     {
         Attack attack = new Attack(ownUnit, targetUnit);

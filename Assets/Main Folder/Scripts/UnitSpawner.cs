@@ -6,6 +6,7 @@ public class UnitSpawner : MonoBehaviour
 {
     public Units units; 
     public GameObject unitPrefab;
+    public GameObject rallyPointObject;
 
     [Header("-----AI-----")] 
     public bool isAI;
@@ -22,11 +23,6 @@ public class UnitSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Vector2 rallyPoint = (Vector2)transform.position  + new Vector2(10, 0);
-            Spawn(1, unitPrefab, transform.position, rallyPoint);
-        }
 
         if (isAI)
         {
@@ -36,7 +32,7 @@ public class UnitSpawner : MonoBehaviour
             }
             else
             {
-                Vector2 rallyPoint = (Vector2)transform.position + new Vector2(-50, 9);
+                Vector2 rallyPoint = rallyPointObject.transform.position;
                 Spawn(1, unitPrefab, transform.position, rallyPoint);
                 spawnTimer = spawnInterval;
             }
@@ -59,7 +55,7 @@ public class UnitSpawner : MonoBehaviour
 
     public void SpawnUnit(GameObject unitPrefab)
     {
-        Vector2 rallyPoint = (Vector2)transform.position  + new Vector2(10, 0);
+        Vector2 rallyPoint = rallyPointObject.transform.position;
         Spawn(1, unitPrefab, transform.position, rallyPoint);
     }
     

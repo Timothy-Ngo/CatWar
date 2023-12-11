@@ -381,7 +381,7 @@ MonoBehaviour:
   healthBar: {fileID: 4891405687304316229}
   unitType: {fileID: 11400000, guid: 865e1177fd069e745a3d76c970af7f80, type: 2}
   selectionCircle: {fileID: 5171178535946053997}
-  detectionCollider: {fileID: 0}
+  detectionCollider: {fileID: 1963709243412419543}
   detectableUnits: []
   targetUnit: {fileID: 0}
   position: {x: 0, y: 0}
