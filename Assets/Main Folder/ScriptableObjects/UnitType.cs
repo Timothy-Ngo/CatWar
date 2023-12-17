@@ -21,7 +21,8 @@ public class UnitType : ScriptableObject
     public float minSpeed;
     public float acceleration;
     public float turnRate;
-
+    public float doneDistanceSq = 9f;
+    
     [Header("-----ATTACK-----")] 
     public bool isRanged;
     public float atkSpeed;

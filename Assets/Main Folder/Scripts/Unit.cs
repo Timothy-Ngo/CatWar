@@ -17,6 +17,9 @@ public class Unit : MonoBehaviour
     public CircleCollider2D detectionCollider;
     public List<Unit> detectableUnits;
     public Unit targetUnit;
+
+    public Animator catWidowAnimator;
+    public Animator captainCatAnimator;
     public bool isSelected
     {
         get => selectionCircle.activeSelf; 
@@ -85,6 +88,10 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
         if (unitType.job == "nexus" || unitType.job == "obstacle")
         {
             return;
@@ -101,10 +108,10 @@ public class Unit : MonoBehaviour
                 //Debug.Log(diff.sqrMagnitude);
                 if (unit.unitType.job == "nexus") // if unit is the nexus, then target the nexus
                 {
-                    targetUnit = unit;
-                    break;
+                    //targetUnit = unit;
+                    
                 }
-                else if ( InDetectionRange(unit) && unitAI.commands.Count == 0) // if the unit is within detection range but out of attack range, then move until within attack range
+                if ( InDetectionRange(unit) && unitAI.commands.Count == 0 && !InAttackRange(unit)) // if the unit is within detection range but out of attack range, then move until within attack range
                 {
                     //Debug.Log("In detection ranged");
                     // Math to find out where the nearest point to move to, to be within attack range of the target unit
@@ -115,15 +122,11 @@ public class Unit : MonoBehaviour
                     
                     AIMovement.inst.HandlePriorityMove(this, nearbyPoint + position );
                 }
-                else if (InAttackRange(unit)) // if the unit the unit is within attack range then attack it
+                if (InAttackRange(unit)) // if the unit the unit is within attack range then attack it
                 {
                     //Debug.Log("In Attack ranged");
                     targetUnit = unit;
                     AIMovement.inst.HandlePriorityAttack(this, targetUnit);
-                }
-                else
-                {
-                    //Debug.Log("In range");
                 }
             }
         }
@@ -148,6 +151,14 @@ public class Unit : MonoBehaviour
                 }
                 else // Melee attacks
                 {
+                    if (unitType.name == "Cat Widow")
+                    {
+                        catWidowAnimator.SetBool("Execute Attack", true);
+                    }
+                    else if (unitType.name == "Captain Cat")
+                    {
+                        captainCatAnimator.SetBool("Execute Attack", true);
+                    }
                     targetUnit.TakeDamage(unitType.atkDamage, this);
                     atkTimer = unitType.atkSpeed;
                 }
@@ -158,17 +169,35 @@ public class Unit : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if (unitType.name == "Cat Widow" && catWidowAnimator.GetBool("Execute Attack"))
+            {
+                catWidowAnimator.SetBool("Execute Attack", false);
+            }
+            else if (unitType.name == "Captain Cat" && captainCatAnimator.GetBool("Execute Attack"))
+            {
+                captainCatAnimator.SetBool("Execute Attack", false);   
+            }
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D col)
     {
+        if (unitType.job == "resource")
+        {
+            return;
+        }
         if (unitType.job == "obstacle")
         {
             return;
         }
         
         Unit colUnit = col.gameObject.GetComponent<Unit>();
-        
+        if (colUnit == null)
+        {
+            return;
+        }
         if ( unitType.job == "worker")
         {
             if (col.gameObject.CompareTag("Resources"))
@@ -177,6 +206,11 @@ public class Unit : MonoBehaviour
                 
             }
         }
+        else if (colUnit.unitType.job == "resources")
+        {
+            return;
+        }
+        
         if (colUnit == null || colUnit.unitType.job == "obstacle")
         {
             return;
@@ -199,7 +233,12 @@ public class Unit : MonoBehaviour
             return;
         }
         Unit colUnit = col.gameObject.GetComponent<Unit>();
-        if (colUnit.unitType.job == "obstacle")
+        // colUnit is sometimes null
+        if (colUnit == null)
+        {
+            return;
+        }
+        if (colUnit.unitType.job == "obstacle" )
         {
             return;
         }
@@ -212,8 +251,16 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            if (colUnit != null && colUnit.unitType.faction != unitType.faction)
+            if (colUnit != null && colUnit.unitType.faction != unitType.faction && detectableUnits.Count > 0 && detectableUnits.Contains(colUnit))
             {
+                if (unitType.name == "Cat Widow" && catWidowAnimator.GetBool("Execute Attack"))
+                {
+                    catWidowAnimator.SetBool("Execute Attack", false);
+                }
+                else if (unitType.name == "Captain Cat" && captainCatAnimator.GetBool("Execute Attack"))
+                {
+                    captainCatAnimator.SetBool("Execute Attack", false);   
+                }
                 Debug.Assert(detectableUnits.Contains(colUnit));
                 detectableUnits.Remove(colUnit);
             }
@@ -268,7 +315,7 @@ public class Unit : MonoBehaviour
         }
         
         float result = currentHealth - dmgAmount;
-        Debug.Log(isDead);
+        //Debug.Log(isDead);
         if (result <= 0 && !isDead) // Kills this unit
         {
             // give player money for killing units
@@ -276,6 +323,7 @@ public class Unit : MonoBehaviour
             {
                 //UI.inst.UpdateCurrencyText(lootMoney);
             }
+            
 
             //TODO:make it a method
             
@@ -286,14 +334,27 @@ public class Unit : MonoBehaviour
             DistanceMgr.inst.RemoveUnit(this); 
             senderUnit.detectableUnits.Remove(this);
             isDead = true;
+            if (senderUnit.unitType.name == "Cat Widow")
+            {
+                senderUnit.catWidowAnimator.SetBool("Execute Attack", true);
+            }
+            else if (unitType.name == "Captain Cat" && captainCatAnimator.GetBool("Execute Attack"))
+            {
+                captainCatAnimator.SetBool("Execute Attack", true);   
+            }
+            
             Destroy(this.gameObject, 1f);
-            Debug.Log($"{gameObject.name} is dead");
+            
+            //Debug.Log($"{gameObject.name} is dead");
         }
         else
         {
             currentHealth = result;
-            healthBar.localScale = new Vector3(currentHealth / unitType.health, healthBar.localScale.y,
-                healthBar.localScale.z);
+            if (healthBar != null) 
+            {
+                healthBar.localScale = new Vector3(currentHealth / unitType.health, healthBar.localScale.y, healthBar.localScale.z);
+                
+            }
         }
     }
 }

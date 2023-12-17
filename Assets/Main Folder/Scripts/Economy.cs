@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,6 +6,13 @@ using UnityEngine;
 
 public class Economy : MonoBehaviour
 {
+    public static Economy inst;
+
+    private void Awake()
+    {
+        inst = this;
+    }
+
     public int workerCatCost = -100;
     public int battleCatCost = -100;
     public int stationCost = -100;

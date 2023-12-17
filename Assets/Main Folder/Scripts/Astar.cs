@@ -66,7 +66,7 @@ public class Astar : MonoBehaviour
 
             }
         }
-        Debug.Log(nodes.Length);
+        //Debug.Log(nodes.Length);
 
         // Draws border of search space
         Debug.DrawLine(nodes[0, 0].worldPosition, nodes[nodeCountX - 1, 0].worldPosition, Color.white, float.MaxValue);

@@ -105,7 +105,7 @@ public class Move : Command
 
     public override bool IsDone()
     {
-        return ((unit.position - movePosition).sqrMagnitude < doneDistanceSq * (AIMovement.inst.selection.player1Units.units.Count * 0.8f));
+        return ((unit.position - movePosition).sqrMagnitude < unit.unitType.doneDistanceSq);
     }
     
     

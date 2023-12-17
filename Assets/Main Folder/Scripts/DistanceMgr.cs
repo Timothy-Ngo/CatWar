@@ -119,7 +119,7 @@ public class DistanceMgr : MonoBehaviour
         potentials2D = new Potential[n, n];
         i = 0;
         foreach (Unit unit1 in totalUnits) {
-            Debug.Log(unit1.unitType.job);
+            //Debug.Log(unit1.unitType.job);
             Dictionary<Unit, Potential> unit1PotDictionary = new Dictionary<Unit, Potential>();
             List<Potential> unit1PotList = new List<Potential>();
             potentialsDictionary.Add(unit1, unit1PotDictionary);

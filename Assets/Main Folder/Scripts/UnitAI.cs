@@ -53,7 +53,10 @@ public class UnitAI : MonoBehaviour
 
     public void PriorityAdd(Command c) // Stop previous command and execute this command first
     {
-        commands[0].Stop();
+        if (commands.Count >= 1)
+        {
+            commands[0].Stop();
+        }
         commands.Insert(0,c);
     }
 }
