@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Main Folder/Beta Scene.unity
-    guid: d3e9f1c471650a14a9254af9669b2650
+    path: Assets/Main Folder/Main Menu.unity
+    guid: 2aa3a2f7561a99c429076237ad9e0adf
+  - enabled: 1
+    path: Assets/Main Folder/Credits.unity
+    guid: 02b35b66f2dcab741b1f8cafe82bea8f
+  - enabled: 1
+    path: Assets/Main Folder/Main Scene.unity
+    guid: 8ea808902d1d04542947325483dde1fa
   m_configObjects: {}
