@@ -17,6 +17,8 @@ public class UnitSpawner : MonoBehaviour
     
     [Header("-----AI-----")] 
     public bool isAI;
+
+    AudioSource SFX;
     
     // Rally points near player1 nexus
     public GameObject attackRallyPointsParent;
@@ -52,6 +54,7 @@ public class UnitSpawner : MonoBehaviour
         }
         else
         {
+            SFX = GetComponent<AudioSource>(); 
             buyTimer = 0;
             buyCooldownBar.localScale = new Vector3(buyTimer / buyInterval, buyCooldownBar.localScale.y,
                 buyCooldownBar.localScale.z);
@@ -120,6 +123,7 @@ public class UnitSpawner : MonoBehaviour
             Debug.Assert(!isAI, "AI called this function, this shouldn't happen");
             if (buyTimer <= 0)
             {
+                SFX.Play();
                 Vector2 rallyPoint = rallyPointObject.transform.position;
                 Spawn(1, unitPrefab, transform.position, rallyPoint);
                 buyTimer = buyInterval;

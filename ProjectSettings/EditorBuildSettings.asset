@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main Folder/Main Scene.unity
     guid: 8ea808902d1d04542947325483dde1fa
+  - enabled: 1
+    path: Assets/Main Folder/How To Play.unity
+    guid: 239fe14395a56f44b91355f2512077ac
   m_configObjects: {}

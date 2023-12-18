@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIHalfDefenseState : AIState
+public class AIFullDefenseState : AIState
 {
     // starts sending spawned cats to defend the nexus
-    // any current cats out will go to the farm points to take out worker cats
+    // any current cats out will go to the defending points to protect the nexus
 
 
     // current units
@@ -40,7 +40,7 @@ public class AIHalfDefenseState : AIState
         unitSpawners.Add(workerSpawner);
 
 
-        
+
     }
 
     // Update is called once per frame
@@ -58,12 +58,12 @@ public class AIHalfDefenseState : AIState
 
 
 
-            // move units to farm points to cut off player's econ
+            // move units to defense points to protect the nexus
             foreach (Unit unit in units)
             {
                 // get random farm point
-                int randomIndex = Random.Range(0, workerSpawner.farmRallyPoints.Count);
-                Vector2 point = workerSpawner.farmRallyPoints[randomIndex];
+                int randomIndex = Random.Range(0, workerSpawner.defenceRallyPoints.Count);
+                Vector2 point = workerSpawner.defenceRallyPoints[randomIndex];
 
                 AIMovement.inst.HandlePriorityMove(unit, point);
             }

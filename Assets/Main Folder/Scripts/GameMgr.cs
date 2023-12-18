@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameMgr : MonoBehaviour
 {
+    AudioSource[] soundEffects;
+
     public GameObject m_camera;
     public Unit playerNexus;
     public Unit aiNexus;
@@ -17,6 +19,7 @@ public class GameMgr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        soundEffects = GetComponents<AudioSource>();
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
         loseScreen.SetActive(false);
@@ -60,6 +63,7 @@ public class GameMgr : MonoBehaviour
         yield return new WaitForSeconds(3);
         Time.timeScale = 0;
         winScreen.SetActive(true);
+        soundEffects[0].Play();
     }
 
     IEnumerator LossFocus()
@@ -68,6 +72,7 @@ public class GameMgr : MonoBehaviour
         m_camera.transform.position = new Vector3(playerNexus.position.x, playerNexus.position.y, -10f);
         yield return new WaitForSeconds(1.5f);
         Time.timeScale = 0;
-        winScreen.SetActive(true);
+        loseScreen.SetActive(true);
+        soundEffects[1].Play();
     }
 }

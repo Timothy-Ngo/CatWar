@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIHalfDefenseState : AIState
+public class AIAttackState : AIState
 {
-    // starts sending spawned cats to defend the nexus
-    // any current cats out will go to the farm points to take out worker cats
+    // starts sending spawned cats to attack the player nexus
+    // any current cats out will go to the defending points to protect the nexus
 
 
     // current units
@@ -40,7 +40,7 @@ public class AIHalfDefenseState : AIState
         unitSpawners.Add(workerSpawner);
 
 
-        
+
     }
 
     // Update is called once per frame
@@ -58,12 +58,12 @@ public class AIHalfDefenseState : AIState
 
 
 
-            // move units to farm points to cut off player's econ
+            // move units to defense points to protect the nexus
             foreach (Unit unit in units)
             {
                 // get random farm point
-                int randomIndex = Random.Range(0, workerSpawner.farmRallyPoints.Count);
-                Vector2 point = workerSpawner.farmRallyPoints[randomIndex];
+                int randomIndex = Random.Range(0, workerSpawner.attackRallyPoints.Count);
+                Vector2 point = workerSpawner.attackRallyPoints[randomIndex];
 
                 AIMovement.inst.HandlePriorityMove(unit, point);
             }
@@ -84,7 +84,7 @@ public class AIHalfDefenseState : AIState
             Debug.Assert(unitSpawners != null, "unitSpawners is null");
             int randomNum = Random.Range(0, unitSpawners.Count);
             UnitSpawner spawner = unitSpawners[randomNum];
-            spawner.RandomSpawn(1, spawner.unitPrefab, spawner.transform.position, spawner.defenceRallyPoints); // Spawns random unit to go to defend the nexus
+            spawner.RandomSpawn(1, spawner.unitPrefab, spawner.transform.position, spawner.attackRallyPoints); // Spawns random unit to go to defend the nexus
 
             spawnTimer = spawnInterval;
         }

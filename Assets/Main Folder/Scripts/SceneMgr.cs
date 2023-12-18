@@ -21,6 +21,11 @@ public class SceneMgr : MonoBehaviour
         SceneManager.LoadScene("Credits");
     }
 
+    public void ChangeSceneToHowToPlay()
+    {
+        SceneManager.LoadScene("How To Play");
+    }
+
     public void QuitGame()
     {
     #if UNITY_EDITOR

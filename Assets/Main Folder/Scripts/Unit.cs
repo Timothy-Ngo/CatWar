@@ -9,6 +9,8 @@ using UnityEngine;
 [System.Serializable]
 public class Unit : MonoBehaviour
 {
+    AudioSource SFX;
+
     public UnitAI unitAI;
     public GameObject projectilePrefab;
     public RectTransform healthBar;
@@ -54,6 +56,8 @@ public class Unit : MonoBehaviour
 
     public void Start()
     {
+        SFX = GetComponent<AudioSource>();
+
         if (unitType.job == "obstacle")
         {
             position = transform.position;
@@ -66,6 +70,7 @@ public class Unit : MonoBehaviour
 
         if (unitType.job == "worker")
         {
+
             resourceMoneyText.text = "+" + resourceCost.ToString();
             resourceMoneyText.gameObject.SetActive(false);
         }
@@ -145,6 +150,7 @@ public class Unit : MonoBehaviour
             {
                 if (unitType.isRanged) // Ranged Attacks
                 {
+                    SFX.Play();
                     GameObject go = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
                     go.gameObject.GetComponent<Projectile>().Init(transform.position,targetUnit.position,  this, targetUnit, unitType.atkDamage);
                     atkTimer = unitType.atkSpeed;
@@ -153,10 +159,12 @@ public class Unit : MonoBehaviour
                 {
                     if (unitType.name == "Cat Widow")
                     {
+                        SFX.Play();
                         catWidowAnimator.SetBool("Execute Attack", true);
                     }
                     else if (unitType.name == "Captain Cat")
                     {
+                        SFX.Play();
                         captainCatAnimator.SetBool("Execute Attack", true);
                     }
                     targetUnit.TakeDamage(unitType.atkDamage, this);
@@ -293,7 +301,7 @@ public class Unit : MonoBehaviour
         yield return new WaitForSeconds(resourceDelay);
         resourceMoneyText.gameObject.SetActive(true);
         UI.inst.UpdateCurrencyText(resourceCost);
-
+        SFX.Play();
         UI.inst.ResetTextAlpha(resourceMoneyText);
         UI.inst.FadeTextOut(resourceMoneyText);
 
