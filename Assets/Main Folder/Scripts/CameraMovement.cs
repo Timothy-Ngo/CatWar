@@ -9,10 +9,19 @@ public class CameraMovement : MonoBehaviour
     public float maxSize = 10f;
 
     public float minSize = 4f;
+
+    // keep the camera within these bounds
+    public float minX = 25f;
+    public float maxX = 265f;
+
+    public float minY = 20f;
+    public float maxY = 130f;
+
     // Start is called before the first frame update
     void Start()
     {
         GetComponent<Camera>().orthographicSize = maxSize;
+        transform.position = new Vector3(minX, (minY + maxY) / 2, -10f);
     }
 
     // Update is called once per frame
@@ -21,18 +30,22 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             transform.position += (Vector3.left * (movementSpeed * Time.deltaTime));
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, minX, maxX), Mathf.Clamp(transform.position.y, minY, maxY), transform.position.z);
         }
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += (Vector3.right * (movementSpeed * Time.deltaTime));
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, minX, maxX), Mathf.Clamp(transform.position.y, minY, maxY), transform.position.z);
         }
         if (Input.GetKey(KeyCode.W))
         {
             transform.position += (Vector3.up * (movementSpeed * Time.deltaTime));
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, minX, maxX), Mathf.Clamp(transform.position.y, minY, maxY), transform.position.z);
         }
         if (Input.GetKey(KeyCode.S))
         {
             transform.position += (Vector3.down * (movementSpeed * Time.deltaTime));
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, minX, maxX), Mathf.Clamp(transform.position.y, minY, maxY), transform.position.z);
         }
 
         if (Input.GetKey(KeyCode.F))

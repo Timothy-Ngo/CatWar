@@ -30,7 +30,9 @@ public class Economy : MonoBehaviour
     // TODO: restrict buying if player does not have enough money
     private void Start()
     {
+
         UI.inst.rangedCatBuyButtonText.text = "($" + ironCat.cost + ") Spawn Ranged Cat";
+        UI.inst.meleeCatBuyButtonText.text = "($" + catWidow.cost + ") Spawn Melee Cat";
         UI.inst.workerCatBuyButtonText.text = "($" + happy.cost + ") Spawn Worker Cat";
 
     }

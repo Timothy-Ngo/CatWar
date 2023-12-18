@@ -115,16 +115,19 @@ public class UnitSpawner : MonoBehaviour
     
     public void SpawnUnit(GameObject unitPrefab)
     {
-        Debug.Assert(!isAI, "AI called this function, this shouldn't happen");
-        if (buyTimer <= 0)
+        if (UI.inst.GetCurrency() >= unitPrefab.GetComponent<Unit>().unitType.cost)
         {
-            Vector2 rallyPoint = rallyPointObject.transform.position;
-            Spawn(1, unitPrefab, transform.position, rallyPoint);
-            buyTimer = buyInterval;
-            Economy.inst.BuyCat(unitPrefab.GetComponent<Unit>().unitType);
+            Debug.Assert(!isAI, "AI called this function, this shouldn't happen");
+            if (buyTimer <= 0)
+            {
+                Vector2 rallyPoint = rallyPointObject.transform.position;
+                Spawn(1, unitPrefab, transform.position, rallyPoint);
+                buyTimer = buyInterval;
+                Economy.inst.BuyCat(unitPrefab.GetComponent<Unit>().unitType);
             
-            // Change color
-            buttonImage.color = Color.gray;
+                // Change color
+                buttonImage.color = Color.gray;
+            }
         }
     }
     

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    
+    Unit nexus;
     
     
     private AIState currentState;
@@ -21,6 +21,11 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         currentState.StateUpdate();
+
+        if (nexus.currentHealth < 100)
+        {
+
+        }
     }
 
     public void ChangeState(AIState newState)

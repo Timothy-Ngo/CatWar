@@ -18,7 +18,7 @@ public class SceneMgr : MonoBehaviour
 
     public void ChangeSceneToCredits()
     {
-        SceneManager.LoadScene("Credtis");
+        SceneManager.LoadScene("Credits");
     }
 
     public void QuitGame()
@@ -33,6 +33,7 @@ public class SceneMgr : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
     }
 
 }

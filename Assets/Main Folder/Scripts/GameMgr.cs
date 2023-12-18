@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameMgr : MonoBehaviour
 {
+    public GameObject m_camera;
     public Unit playerNexus;
     public Unit aiNexus;
 
@@ -11,10 +12,12 @@ public class GameMgr : MonoBehaviour
     public GameObject loseScreen;
     public GameObject pauseMenu;
     bool pauseMenuActive = false;
+    bool gameEnded = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         pauseMenu.SetActive(false);
         loseScreen.SetActive(false);
         winScreen.SetActive(false);
@@ -29,15 +32,13 @@ public class GameMgr : MonoBehaviour
             PauseResumeGame();
         }
 
-        if (playerNexus.currentHealth <= 0)
+        if (playerNexus.currentHealth <= 0 && !gameEnded)
         {
-            Time.timeScale = 0;
-            loseScreen.SetActive(true);
+            StartCoroutine(LossFocus());
         }
-        else if (aiNexus.currentHealth <= 0)
+        else if (aiNexus.currentHealth <= 0 && !gameEnded)
         {
-            Time.timeScale = 0;
-            winScreen.SetActive(true);
+            StartCoroutine(WinFocus());
         }
     }
 
@@ -50,5 +51,23 @@ public class GameMgr : MonoBehaviour
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
+    }
+
+    IEnumerator WinFocus()
+    {
+        gameEnded = true;
+        m_camera.transform.position = new Vector3(aiNexus.position.x, aiNexus.position.y, -10f);
+        yield return new WaitForSeconds(3);
+        Time.timeScale = 0;
+        winScreen.SetActive(true);
+    }
+
+    IEnumerator LossFocus()
+    {
+        gameEnded = true;
+        m_camera.transform.position = new Vector3(playerNexus.position.x, playerNexus.position.y, -10f);
+        yield return new WaitForSeconds(1.5f);
+        Time.timeScale = 0;
+        winScreen.SetActive(true);
     }
 }
